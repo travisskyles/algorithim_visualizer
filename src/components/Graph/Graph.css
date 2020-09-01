@@ -1,0 +1,9 @@
+.grid {
+	display: inline-block;
+	border: 1px solid rgb(212, 212, 212);
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
