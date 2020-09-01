@@ -4,13 +4,7 @@ import './Node.css';
 export default class Node extends React.Component {
 	constructor(props) {
 		super(props);
-		this.setState = {
-			// x: props.xCoord,
-			// y: props.yCoord,
-			// isVisited: false,
-			// isStart: props.isStart || false,
-			// isFinish: props.isFinish || false,
-		};
+		this.State = {};
 	}
 
 	render() {

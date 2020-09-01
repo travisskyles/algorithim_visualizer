@@ -1,5 +1,5 @@
 import React from 'react';
-import Graph from '../Graph/Graph';
+import Graph from '../Grid/Grid';
 import './Visualizer.css';
 
 export default class Visualizer extends React.Component {

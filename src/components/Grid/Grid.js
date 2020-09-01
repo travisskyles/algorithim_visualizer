@@ -48,7 +48,8 @@ const createGrid = () => {
 				column,
 				row,
 				isStart: row === 15 && column === 5,
-				isFinish: row === 15 && column === 60,
+        isFinish: row === 15 && column === 60,
+        distance: Infinity,
 			};
 			currentRow.push(currentNode);
 		}
