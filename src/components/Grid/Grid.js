@@ -10,38 +10,50 @@ export default class Grid extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      grid: [],
-      startNodeRow: 15,
-      startNodeColumn: 5,
-      finishNodeRow: 15,
-      finishNodeColumn: 60,
-    };
-    
-  }
-
+			grid: [],
+			rows: 25,
+			columns: 60,
+			startNodeRow: 12,
+			startNodeColumn: 10,
+			finishNodeRow: 12,
+			finishNodeColumn: 50,
+			mousePressed: false,
+		};
+	}
 
 	componentDidMount() {
-    const grid = this.createGrid();
+		const grid = this.createGrid();
 		this.setState({ grid });
   }
   
-  handleClick = () => {
-    this.animateDijkstras();
+  setRef = (key, ref) => {
+    this[key] = ref;
   }
 
-  animateDijkstras(){
-    const {grid, startNodeRow, startNodeColumn, finishNodeRow, finishNodeColumn} = this.state;
-    const startNode = grid[startNodeRow][startNodeColumn];
-    const finishNode = grid[finishNodeRow][finishNodeColumn];
-    const visitedInOrder = dijkstras(grid, startNode, finishNode);
-    const nodesInShortestOrder = getNodesInShortestOrder(finishNode);
-    console.log(nodesInShortestOrder);
+	handleClick = () => {
+		this.runDijkstras();
+	};
 
-  }
+	handleMouseDown(e, row, column) {
+    console.log(e.target)
+    // const newGrid = this.updateGrid(this.state.grid, row, column);
+    // this.setState({ grid: newGrid, mousePressed: true });
+    this.setState({})
+	}
 
+	handleMouseEnter(row, column) {
+    if (!this.state.mousePressed) return;
+		const newGrid = this.updateGrid(this.state.grid, row, column);
+		this.setState({ grid: newGrid });
+	}
+
+	handleMouseUp() {
+		this.setState({ mousePressed: false });
+	}
 
 	render() {
     const { grid } = this.state;
+    console.log('render')
 		return (
 			<div className='grid_wrapper'>
 				<button onClick={this.handleClick}>Dijkstras</button>
@@ -50,12 +62,23 @@ export default class Grid extends React.Component {
 						return (
 							<div className='row' key={idxRow}>
 								{row.map((node, idxNode) => {
-									const { isStart, isFinish } = node;
+									const { isStart, isFinish, row, column, isWall } = node;
 									return (
 										<Node
 											key={idxNode}
+                      setRef={this.setRef}
+											row={row}
+											column={column}
+											isWall={isWall}
 											isStart={isStart}
-											isFinish={isFinish}></Node>
+											isFinish={isFinish}
+											onMouseDown={(e, row, col) =>
+												this.handleMouseDown(e, row, col)
+											}
+											onMouseEnter={(e, row, col) =>
+												this.handleMouseEnter(e, row, col)
+											}
+											onMouseUp={() => this.handleMouseUp()}></Node>
 									);
 								})}
 							</div>
@@ -64,26 +87,88 @@ export default class Grid extends React.Component {
 				</div>
 			</div>
 		);
-  }
-  
-  createGrid(){
-    const grid = [];
-    for (let row = 0; row < 30; row++) {
-      const currentRow = [];
-      for (let column = 0; column < 65; column++) {
-        const currentNode = {
-          column,
-          row,
-          isStart: row === this.state.startNodeRow && column === this.state.startNodeColumn,
-          isFinish: row === this.state.finishNodeRow && column === this.state.finishNodeColumn,
-          distance: Infinity,
-        };
-        currentRow.push(currentNode);
-      }
-      grid.push(currentRow);
-    }
-    return grid;
-  };
+	}
+
+	runDijkstras() {
+		const {
+			grid,
+			startNodeRow,
+			startNodeColumn,
+			finishNodeRow,
+			finishNodeColumn,
+		} = this.state;
+		const startNode = grid[startNodeRow][startNodeColumn];
+		const finishNode = grid[finishNodeRow][finishNodeColumn];
+		const visitedInOrder = dijkstras(grid, startNode, finishNode);
+		const shortestInOrder = getNodesInShortestOrder(finishNode);
+		this.animateDijkstra(visitedInOrder, shortestInOrder);
+	}
+
+	animateDijkstra(visitedNodesInOrder, nodesInShortestOrder) {
+		for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+			if (i === visitedNodesInOrder.length) {
+				setTimeout(() => {
+					this.animateShortestPath(nodesInShortestOrder);
+				}, 10 * i);
+				return;
+			}
+			setTimeout(() => {
+        const node = visitedNodesInOrder[i];
+        this[`node-${node.row}-${node.column}`].className = 'node node_visited';
+			}, 10 * i);
+		}
+	}
+
+	animateShortestPath(nodesInShortestOrder) {
+		for (let i = 0; i < nodesInShortestOrder.length; i++) {
+			setTimeout(() => {
+				const node = nodesInShortestOrder[i];
+				this[`node-${node.row}-${node.column}`].className = 'node node_shortestPath';
+			}, 50 * i);
+		}
+	}
+
+	createNode(row, column) {
+		return {
+			column,
+			row,
+			isWall: false,
+			isVisited: false,
+			isStart:
+				row === this.state.startNodeRow &&
+				column === this.state.startNodeColumn,
+			isFinish:
+				row === this.state.finishNodeRow &&
+				column === this.state.finishNodeColumn,
+			distance: Infinity,
+			previousNode: null,
+		};
+	}
+
+	createGrid() {
+		const { rows, columns } = this.state;
+		const grid = [];
+		for (let row = 0; row < rows; row++) {
+			const currentRow = [];
+			for (let column = 0; column < columns; column++) {
+				const currentNode = this.createNode(row, column);
+				currentRow.push(currentNode);
+			}
+			grid.push(currentRow);
+		}
+		return grid;
+	}
+
+	updateGrid(grid, row, column) {
+		const newGrid = grid.slice();
+		const node = newGrid[row][column];
+		const newNode = {
+			...node,
+			isWall: !node.isWall,
+		};
+		newGrid[row][column] = newNode;
+		return newGrid;
+	}
 }
 
 

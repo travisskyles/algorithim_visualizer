@@ -5,6 +5,7 @@ import './Visualizer.css';
 export default class Visualizer extends React.Component {
 	constructor(props) {
 		super(props);
+		this.state = {};
 	}
 
 	render() {

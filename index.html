@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<script
+			src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+			integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs="
+			crossorigin="anonymous"
+		></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<header class="header"></header>
+		<div class="info-container"></div>
+		<div class="table-wrapper">
+			<table class="grid"></table>
+		</div>
+	</body>
+	<script>
+		$(() => {
+			let rows = 30;
+			let cols = 80;
+
+			for (let row = 0; row < rows; row++) {
+				$('.grid').append(`<tr class=row-${row}>`);
+				for (let col = 0; col < cols; col++) {
+					$(`.row-${row}`).append(
+						`<td id=node-${row}-${col} class=node node_default`
+					);
+				}
+			}
+		});
+	</script>
+</html>

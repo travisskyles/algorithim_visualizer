@@ -64,12 +64,10 @@ function _sortNodesByDistance(unvistedNodes){
 }
 
 export function getNodesInShortestOrder(finishNode){
-  console.log(finishNode);
   const nodesInShortestPathOrder = [];
   let currentNode = finishNode;
   while(!!currentNode){
     nodesInShortestPathOrder.unshift(currentNode);
-    console.log('currentNode', currentNode);
     currentNode = currentNode.previousNode;
   }
   return nodesInShortestPathOrder;

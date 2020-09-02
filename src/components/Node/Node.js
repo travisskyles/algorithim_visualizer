@@ -2,7 +2,17 @@ import React from 'react';
 import './Node.css';
 
 export default function Node(props) {
-	const { isStart, isFinish, row, column, isWall } = props;
+	const {
+		isStart,
+		isFinish,
+		row,
+		column,
+		isWall,
+		onMouseDown,
+		onMouseEnter,
+		onMouseUp,
+		setRef,
+	} = props;
 	const addedClass = isFinish
 		? 'node_finish'
 		: isStart
@@ -12,6 +22,12 @@ export default function Node(props) {
 		: 'node_default';
 
 	return (
-		<div id={`node-${row}-${column}`} className={`node ${addedClass}`}></div>
+		<div
+			id={`node-${row}-${column}`}
+			ref={(refElem) => setRef(`node-${row}-${column}`, refElem)}
+			className={`node ${addedClass}`}
+			onMouseDown={(e) => onMouseDown(e, row, column)}
+			onMouseEnter={() => onMouseEnter(row, column)}
+			onMouseUp={() => onMouseUp()}></div>
 	);
 }

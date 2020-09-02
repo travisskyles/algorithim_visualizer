@@ -1,0 +1,35 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+.header {
+	height: 10vh;
+	background-color: grey;
+}
+
+.info-container {
+	height: 15vh;
+}
+
+.table-wrapper {
+	align-content: center;
+	justify-content: center;
+}
+
+.grid {
+	margin: auto;
+	margin-top: 30px;
+}
+
+.grid,
+.node {
+	border-collapse: collapse;
+	border: 1px solid black;
+}
+
+.node {
+	height: 20px;
+	width: 20px;
+}
