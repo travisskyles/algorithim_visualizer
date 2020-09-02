@@ -1,21 +1,15 @@
 import React from 'react';
 import './Node.css';
 
-export default class Node extends React.Component {
-	constructor(props) {
-		super(props);
-		this.State = {};
-	}
+export default function Node(props) {
+	const { isStart, isFinish, row, column, isWall } = props;
+	const addedClass = isFinish
+		? 'node_finish'
+		: isStart
+		? 'node_start'
+		: 'node_default';
 
-	render() {
-		const { isStart, isFinish } = this.props;
-		const addedClass = isFinish
-			? 'node_finish'
-			: isStart
-			? 'node_start'
-			: 'node_default';
-
-		return <div className={`node ${addedClass}`}></div>;
-		// return <div className={`node`}></div>;
-	}
+	return (
+		<div id={`node-${row}-${column}`} className={`node ${addedClass}`}></div>
+	);
 }
