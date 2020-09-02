@@ -7,6 +7,8 @@ export default function Node(props) {
 		? 'node_finish'
 		: isStart
 		? 'node_start'
+		: isWall
+		? 'node_wall'
 		: 'node_default';
 
 	return (
