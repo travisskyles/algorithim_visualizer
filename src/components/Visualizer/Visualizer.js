@@ -1,5 +1,5 @@
 import React from 'react';
-import Graph from '../Grid/Grid';
+import Grid from '../Grid/Grid';
 import './Visualizer.css';
 
 export default class Visualizer extends React.Component {
@@ -10,7 +10,7 @@ export default class Visualizer extends React.Component {
 	render() {
 		return (
 			<div className='body'>
-				<Graph />
+				<Grid />
 			</div>
 		);
 	}
