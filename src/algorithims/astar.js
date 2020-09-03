@@ -8,10 +8,8 @@ export const astar = {
 	 * @function init
 	 * @private
 	 * @param {matrix} grid the incoming matrix of nodes
-	 * @returns {matrix} the grid with properties added to nodes
 	 */
 	_init: function (grid) {
-		let nodes = [];
 		for (let row of grid) {
 			for (let node of row) {
 				node.f = Infinity;
@@ -19,7 +17,6 @@ export const astar = {
 				node.h = Infinity;
 			}
 		}
-		return nodes;
 	},
 	/**
 	 * runs the A-star algorithim
@@ -35,7 +32,7 @@ export const astar = {
 			return false;
 		}
 		// add f,g,h values to all nodes
-		grid = astar._init(grid);
+		astar._init(grid);
 
 		// create an open (not yet visited) and closed (visited) list; could optimize in future with heap or priority queue
 		// set starting node values for f,g
