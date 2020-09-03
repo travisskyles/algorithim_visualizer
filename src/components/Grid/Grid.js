@@ -187,8 +187,7 @@ export default class Grid extends React.Component {
 		const finishNode = grid[finishNodeRow][finishNodeColumn];
 		const visitedInOrder = astar.run(grid, startNode, finishNode);
 		const shortestInOrder = astar.getShortestPath(finishNode);
-		console.log(shortestInOrder);
-		// this.animate(visitedInOrder, shortestInOrder);
+		this.animate(visitedInOrder, shortestInOrder);
 	}
 
 	animate(visitedNodesInOrder, nodesInShortestOrder) {
