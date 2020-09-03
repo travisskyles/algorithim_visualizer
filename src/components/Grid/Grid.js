@@ -111,12 +111,20 @@ export default class Grid extends React.Component {
 						return (
 							<div className='row' key={idxRow}>
 								{row.map((node, idxNode) => {
-									const { isStart, isFinish, row, column, isWall } = node;
+									const {
+										isStart,
+										isFinish,
+										row,
+										column,
+										isWall,
+										weight,
+									} = node;
 									return (
 										<Node
 											key={idxNode}
 											setRef={this.setRef}
 											row={row}
+											weight={weight}
 											column={column}
 											isWall={isWall}
 											isStart={isStart}
@@ -187,6 +195,7 @@ export default class Grid extends React.Component {
 			row,
 			isWall: false,
 			isVisited: false,
+			weight: 1,
 			isStart:
 				row === this.state.startNodeRow &&
 				column === this.state.startNodeColumn,
