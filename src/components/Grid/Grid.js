@@ -1,4 +1,5 @@
 import React from 'react';
+import { astar } from '../../algorithims/astar';
 import {
 	dijkstras,
 	getNodesInShortestOrder,
@@ -77,8 +78,17 @@ export default class Grid extends React.Component {
 		}
 	};
 
-	handleClick = () => {
-		this.runDijkstras();
+	handleClick = (e) => {
+		switch (e.target.value) {
+			case 'dijkstras':
+				this.runDijkstras();
+				break;
+			case 'astar':
+				this.runAstar();
+				break;
+			default:
+				return;
+		}
 	};
 
 	handleMouseDown(row, column) {
@@ -105,7 +115,12 @@ export default class Grid extends React.Component {
 		const { grid } = this.state;
 		return (
 			<div className='grid_wrapper'>
-				<button onClick={this.handleClick}>Dijkstras</button>
+				<button value={'dijkstras'} onClick={(e) => this.handleClick(e)}>
+					Dijkstras
+				</button>
+				<button value={'astar'} onClick={(e) => this.handleClick(e)}>
+					A-Star
+				</button>
 				<div className='grid'>
 					{grid.map((row, idxRow) => {
 						return (
@@ -157,10 +172,26 @@ export default class Grid extends React.Component {
 		const finishNode = grid[finishNodeRow][finishNodeColumn];
 		const visitedInOrder = dijkstras(grid, startNode, finishNode);
 		const shortestInOrder = getNodesInShortestOrder(finishNode);
-		this.animateDijkstra(visitedInOrder, shortestInOrder);
+		this.animate(visitedInOrder, shortestInOrder);
 	}
 
-	animateDijkstra(visitedNodesInOrder, nodesInShortestOrder) {
+	runAstar() {
+		const {
+			grid,
+			startNodeRow,
+			startNodeColumn,
+			finishNodeRow,
+			finishNodeColumn,
+		} = this.state;
+		const startNode = grid[startNodeRow][startNodeColumn];
+		const finishNode = grid[finishNodeRow][finishNodeColumn];
+		const visitedInOrder = astar.run(grid, startNode, finishNode);
+		const shortestInOrder = astar.getShortestPath(finishNode);
+		console.log(shortestInOrder);
+		// this.animate(visitedInOrder, shortestInOrder);
+	}
+
+	animate(visitedNodesInOrder, nodesInShortestOrder) {
 		for (let i = 0; i <= visitedNodesInOrder.length; i++) {
 			const node = visitedNodesInOrder[i];
 			if (i === visitedNodesInOrder.length) {

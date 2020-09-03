@@ -55,7 +55,7 @@ export const astar = {
           }
 
           if(gScoreIsBest){
-            neighbor.parent = current;
+            neighbor.previousNode = current;
             neighbor.g = gScore;
             neighbor.f = neighbor.g + neighbor.h;
           }
