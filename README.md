@@ -1,6 +1,18 @@
+# Algorithim Visualizer
+
+An app to visually show a variety of pathfinding and sorting algorithms.
+
+View at [https://algorithim-visualizations.herokuapp.com/](https://algorithim-visualizations.herokuapp.com/)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Current Algorithms
+
+### Pathfinding
+
+- Dijkstras
+
+<!-- ## Available Scripts
 
 In the project directory, you can run:
 
@@ -65,4 +77,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 
 ### `yarn build` fails to minify
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify -->

@@ -4,9 +4,9 @@ import Visualizer from './components/Visualizer/Visualizer';
 
 function App() {
   return (
-    <div className="App">
+    <>
       <Visualizer />
-    </div>
+    </>
   );
 }
 

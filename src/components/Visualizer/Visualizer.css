@@ -1,6 +1,12 @@
 .body {
 	display: flex;
-	height: 100vh;
+	/* height: 100vh; */
+	padding: 25px;
 	justify-content: center;
 	align-items: flex-end;
+}
+
+.header {
+	background-color: ivory;
+	height: 15%;
 }

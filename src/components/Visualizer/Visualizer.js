@@ -10,9 +10,11 @@ export default class Visualizer extends React.Component {
 
 	render() {
 		return (
-			<div className='body'>
+			<>
+				<div className='header'></div>
+				<div className='info-container'></div>
 				<Grid />
-			</div>
+			</>
 		);
 	}
 }

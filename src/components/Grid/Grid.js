@@ -11,6 +11,8 @@ export default class Grid extends React.Component {
 		super(props);
 		this.state = {
 			grid: [],
+			windowHeight: 0,
+			windowWidth: 0,
 			rows: 25,
 			columns: 60,
 			startNodeRow: 12,
@@ -22,12 +24,59 @@ export default class Grid extends React.Component {
 	}
 
 	componentDidMount() {
-		const grid = this.createGrid();
-		this.setState({ grid });
+		// console.log('start', this.state.windowWidth);
+		window.addEventListener('resize', this.updateColumns);
+		window.addEventListener('load', () => {
+			this.updateWindow();
+			this.updateRows();
+			this.updateColumns();
+			const grid = this.createGrid();
+			this.setState({ grid });
+		});
+		window.addEventListener('resize', () => {
+			this.updateWindow();
+			this.updateRows();
+			this.updateColumns();
+			const grid = this.createGrid();
+			this.setState({ grid });
+		});
 	}
 
 	setRef = (key, ref) => {
 		this[key] = ref;
+	};
+
+	updateWindow = () => {
+		this.setState({
+			windowWidth: window.innerWidth,
+			windowHeight: window.innerHeight,
+		});
+	};
+
+	updateColumns = () => {
+		let x = this.state.windowWidth;
+		if (x > 0 && x < 600) {
+			this.setState({ columns: 20 });
+		}
+		if (x > 600 && x < 1200) {
+			this.setState({ columns: 40 });
+		}
+		if (x > 1200) {
+			this.setState({ columns: 60 });
+		}
+	};
+
+	updateRows = () => {
+		let x = this.state.windowWidth;
+		if (x > 0 && x < 600) {
+			this.setState({ rows: 15 });
+		}
+		if (x > 600 && x < 1000) {
+			this.setState({ rows: 20 });
+		}
+		if (x > 1000) {
+			this.setState({ rows: 25 });
+		}
 	};
 
 	handleClick = () => {
@@ -56,7 +105,6 @@ export default class Grid extends React.Component {
 
 	render() {
 		const { grid } = this.state;
-		console.log('render');
 		return (
 			<div className='grid_wrapper'>
 				<button onClick={this.handleClick}>Dijkstras</button>
