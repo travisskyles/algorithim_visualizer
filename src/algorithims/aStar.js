@@ -1,5 +1,5 @@
 // A* Search Algorithm
-const astar = {
+export const astar = {
     init: function(grid){
     let nodes = [];
     for (let row of grid) {
@@ -28,7 +28,7 @@ const astar = {
         _sortNodesByDistance(open);
         let current = open.shift();
         if (current === finishNode){
-          return _getShortestPath(current);
+          return closed;
         }
         if(current.isWall) continue;
         current.isVisited = true;
