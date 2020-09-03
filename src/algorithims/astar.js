@@ -21,11 +21,11 @@ export const astar = {
       const open = [];
       const closed = [];
       startNode.g = 0;
-      startNode.f = _heuristic(startNode, finishNode);
+      startNode.f = this._heuristic(startNode, finishNode);
       open.push(startNode);
 
       while(!!open.length){
-        _sortNodesByDistance(open);
+        this._sortNodesByDistance(open);
         let current = open.shift();
         if (current === finishNode){
           return closed;
@@ -34,7 +34,7 @@ export const astar = {
         current.isVisited = true;
         closed.push(current);
 
-        let neighbors = _getNeighbors(current, grid)
+        let neighbors = this._getNeighbors(current, grid)
 
         for (let neighbor of neighbors) {
           if(neighbor.isWall || closed.includes(neighbor)){
@@ -45,9 +45,17 @@ export const astar = {
           let gScore = current.g + current.weight;
           let gScoreIsBest = false;
 
-          if(!open.includes(neighbor){
+          if(!open.includes(neighbor)){
             gScoreIsBest = true;
-            neighbor.h = _heuristic(neighbor, finishNode);
+            neighbor.h = this._heuristic(neighbor, finishNode);
+            open.push(neighbor);
+          }
+          else if(gScore < neighbor.g){
+            gScoreIsBest = true;
+          }
+
+          if(gScoreIsBest){
+            neighbor.parent = current;
             neighbor.g = gScore;
             neighbor.f = neighbor.g + neighbor.h;
           }
@@ -56,10 +64,10 @@ export const astar = {
     return [];
   },
 
-  _getShortestPath: function(currentNode){
-    let current = currentNode;
+  getShortestPath: function(finishNode){
+    let current = finishNode;
     const result = [];
-    while(currentNode.previousNode){
+    while(current.previousNode){
       result.push(current);
       current = current.previousNode;
     }
@@ -82,16 +90,16 @@ export const astar = {
     if (column > 0) neighbors.push(grid[row][column - 1]);
     if (column < grid[0].length - 1) neighbors.push(grid[row][column + 1]);
 
-    return _updateNeighbors(node, neighbors);
-  },
-
-  _updateNeighbors: function(node, neighbors) {
-    for (let neighbor of neighbors) {
-      neighbor.distance = node.distance + neighbor.weight;
-      neighbor.previousNode = node;
-    }
     return neighbors;
   },
+
+  // _updateNeighbors: function(node, neighbors) {
+  //   for (let neighbor of neighbors) {
+  //     neighbor.distance = node.distance + neighbor.weight;
+  //     neighbor.previousNode = node;
+  //   }
+  //   return neighbors;
+  // },
 
   _sortNodesByDistance: function(arr) {
     return arr.sort((nodeA, nodeB) => nodeA.f - nodeB.f);
