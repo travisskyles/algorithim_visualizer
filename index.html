@@ -14,23 +14,56 @@
 	<body>
 		<header class="header"></header>
 		<div class="info-container"></div>
-		<div class="table-wrapper">
-			<table class="grid"></table>
+		<div class="table-wrapper" draggable="false" ondragstart="return false;">
+			<table class="grid" draggable="false" ondragstart="return false;"></table>
 		</div>
 	</body>
 	<script>
 		$(() => {
 			let rows = 30;
 			let cols = 80;
+			let mousePressed = false;
+			let startNodeRow = 15;
+			let startNodeColumn = 15;
+			let finishNodeRow = 15;
+			let finishNodeColumn = 65;
 
 			for (let row = 0; row < rows; row++) {
-				$('.grid').append(`<tr class=row-${row}>`);
+				$('.grid').append(
+					`<tr class=row-${row}> draggable="false" ondragstart="return false"`
+				);
 				for (let col = 0; col < cols; col++) {
-					$(`.row-${row}`).append(
-						`<td id=node-${row}-${col} class=node node_default`
-					);
+					$(`.row-${row}`).append(() => {
+						if (row === startNodeRow && col === startNodeColumn) {
+							return `<td id=node-${row}-${col} class="node node-start" draggable="false" ondragstart="return false"`;
+						}
+						if (row === finishNodeRow && col === finishNodeColumn) {
+							return `<td id=node-${row}-${col} class="node node-finish" draggable="false" ondragstart="return false"`;
+						}
+						return `<td id=node-${row}-${col} class="node node-default" draggable="false" ondragstart="return false"`;
+					});
 				}
 			}
+
+			$('.node').mousedown(function () {
+				$(this).toggleClass('node-default').toggleClass('node-wall');
+				mousePressed = true;
+			});
+
+			$('.node').mouseenter(function () {
+				if (!mousePressed) return;
+				$(this).remove('node-default').addClass('node-wall');
+			});
+
+			$('.node').mouseup(function () {
+				$(this).toggleClass('node-default').toggleClass('node-wall');
+				mousePressed = false;
+			});
+
+			$('.node').on('dragstart', function (e) {
+				mousePressed = false;
+				return false;
+			});
 		});
 	</script>
 </html>

@@ -33,3 +33,15 @@
 	height: 20px;
 	width: 20px;
 }
+
+.node-wall {
+	background-color: black;
+}
+
+.node-start {
+	background-color: green;
+}
+
+.node-finish {
+	background-color: red;
+}
