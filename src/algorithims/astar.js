@@ -52,7 +52,8 @@ export const astar = {
 			if (current === finishNode) return closed;
 			if (current.isWall) continue;
 
-			// set current as visited and push to closed list
+			// set current as visited
+			// push current to closed list
 			current.isVisited = true;
 			closed.push(current);
 
@@ -67,7 +68,7 @@ export const astar = {
 
 				// set gScore as the current distance from the start through the current node
 				// gScoreIsBest is false because we still need to check to see if this one is the best
-				let gScore = current.g + neighbor.weight; // could possibly need to be current.weight
+				let gScore = current.g + neighbor.weight;
 				let gScoreIsBest = false;
 
 				// first time arriving at this node so it must be the best currently
