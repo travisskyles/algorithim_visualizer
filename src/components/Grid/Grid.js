@@ -1,9 +1,6 @@
 import React from 'react';
 import { astar } from '../../algorithims/astar';
-import {
-	dijkstras,
-	getNodesInShortestOrder,
-} from '../../algorithims/dijkstras';
+import { dijkstras } from '../../algorithims/dijkstras';
 import Node from '../Node/Node';
 import './Grid.css';
 
@@ -170,8 +167,8 @@ export default class Grid extends React.Component {
 		} = this.state;
 		const startNode = grid[startNodeRow][startNodeColumn];
 		const finishNode = grid[finishNodeRow][finishNodeColumn];
-		const visitedInOrder = dijkstras(grid, startNode, finishNode);
-		const shortestInOrder = getNodesInShortestOrder(finishNode);
+		const visitedInOrder = dijkstras.run(grid, startNode, finishNode);
+		const shortestInOrder = dijkstras.getShortestPath(finishNode);
 		this.animate(visitedInOrder, shortestInOrder);
 	}
 
