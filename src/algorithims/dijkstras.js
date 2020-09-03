@@ -18,6 +18,7 @@ export function dijkstras(grid, startNode, finishNode) {
     // sort the unvisited nodes from smallest to largest and set the current node as the first from the array
     _sortNodesByDistance(unvisited);
     let current = unvisited.shift();
+    current.isCurrent = true;
     // If current node is a wall continue
     if (current.isWall) continue;
     // when all unvisited neighbor nodes of the current node have been mapped, mark the current node as visited, removing it from the unvisited set
@@ -28,6 +29,7 @@ export function dijkstras(grid, startNode, finishNode) {
     // otherwise select the unvistited node with the smallest tentative distance and set it as the new current node and repeat the process of calculating the distance to each unvisited neighbor node
     // for each current node calculate the distance to each of its unvisited neighbor nodes. add the disance from the current node to the neighbor node to the distance from the starting node.
     _updateNeighbors(current, grid);
+    current.isCurrent = false;
   }
 }
 

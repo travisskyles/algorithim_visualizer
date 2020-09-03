@@ -24,8 +24,6 @@ export default class Grid extends React.Component {
 	}
 
 	componentDidMount() {
-		// console.log('start', this.state.windowWidth);
-		window.addEventListener('resize', this.updateColumns);
 		window.addEventListener('load', () => {
 			this.updateWindow();
 			this.updateRows();
@@ -156,6 +154,7 @@ export default class Grid extends React.Component {
 
 	animateDijkstra(visitedNodesInOrder, nodesInShortestOrder) {
 		for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+			const node = visitedNodesInOrder[i];
 			if (i === visitedNodesInOrder.length) {
 				setTimeout(() => {
 					this.animateShortestPath(nodesInShortestOrder);
@@ -163,9 +162,12 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-				const node = visitedNodesInOrder[i];
-				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
+				this[`node-${node.row}-${node.column}`].className = 'node node_current';
 			}, 10 * i);
+
+			setTimeout(() => {
+				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
+			}, 10 * i + 50);
 		}
 	}
 
