@@ -11,6 +11,7 @@ export default function Node(props) {
 		onMouseDown,
 		onMouseEnter,
 		onMouseUp,
+		onDragStart,
 		setRef,
 	} = props;
 	const addedClass = isFinish
@@ -26,7 +27,9 @@ export default function Node(props) {
 			id={`node-${row}-${column}`}
 			ref={(refElem) => setRef(`node-${row}-${column}`, refElem)}
 			className={`node ${addedClass}`}
-			onMouseDown={(e) => onMouseDown(e, row, column)}
+			draggable={false}
+			onDragStart={() => onDragStart()}
+			onMouseDown={() => onMouseDown(row, column)}
 			onMouseEnter={() => onMouseEnter(row, column)}
 			onMouseUp={() => onMouseUp()}></div>
 	);

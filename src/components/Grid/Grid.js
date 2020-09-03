@@ -1,7 +1,7 @@
 import React from 'react';
 import {
-  dijkstras,
-  getNodesInShortestOrder
+	dijkstras,
+	getNodesInShortestOrder,
 } from '../../algorithims/dijkstras';
 import Node from '../Node/Node';
 import './Grid.css';
@@ -24,25 +24,23 @@ export default class Grid extends React.Component {
 	componentDidMount() {
 		const grid = this.createGrid();
 		this.setState({ grid });
-  }
-  
-  setRef = (key, ref) => {
-    this[key] = ref;
-  }
+	}
+
+	setRef = (key, ref) => {
+		this[key] = ref;
+	};
 
 	handleClick = () => {
 		this.runDijkstras();
 	};
 
-	handleMouseDown(e, row, column) {
-    console.log(e.target)
-    // const newGrid = this.updateGrid(this.state.grid, row, column);
-    // this.setState({ grid: newGrid, mousePressed: true });
-    this.setState({})
+	handleMouseDown(row, column) {
+		const newGrid = this.updateGrid(this.state.grid, row, column);
+		this.setState({ grid: newGrid, mousePressed: true });
 	}
 
 	handleMouseEnter(row, column) {
-    if (!this.state.mousePressed) return;
+		if (!this.state.mousePressed) return;
 		const newGrid = this.updateGrid(this.state.grid, row, column);
 		this.setState({ grid: newGrid });
 	}
@@ -51,9 +49,14 @@ export default class Grid extends React.Component {
 		this.setState({ mousePressed: false });
 	}
 
+	handleDragStart() {
+		this.setState({ mousePressed: false });
+		return false;
+	}
+
 	render() {
-    const { grid } = this.state;
-    console.log('render')
+		const { grid } = this.state;
+		console.log('render');
 		return (
 			<div className='grid_wrapper'>
 				<button onClick={this.handleClick}>Dijkstras</button>
@@ -66,17 +69,16 @@ export default class Grid extends React.Component {
 									return (
 										<Node
 											key={idxNode}
-                      setRef={this.setRef}
+											setRef={this.setRef}
 											row={row}
 											column={column}
 											isWall={isWall}
 											isStart={isStart}
 											isFinish={isFinish}
-											onMouseDown={(e, row, col) =>
-												this.handleMouseDown(e, row, col)
-											}
-											onMouseEnter={(e, row, col) =>
-												this.handleMouseEnter(e, row, col)
+											onDragStart={() => this.handleDragStart()}
+											onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+											onMouseEnter={(row, col) =>
+												this.handleMouseEnter(row, col)
 											}
 											onMouseUp={() => this.handleMouseUp()}></Node>
 									);
@@ -113,8 +115,8 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        this[`node-${node.row}-${node.column}`].className = 'node node_visited';
+				const node = visitedNodesInOrder[i];
+				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
 			}, 10 * i);
 		}
 	}
@@ -123,7 +125,8 @@ export default class Grid extends React.Component {
 		for (let i = 0; i < nodesInShortestOrder.length; i++) {
 			setTimeout(() => {
 				const node = nodesInShortestOrder[i];
-				this[`node-${node.row}-${node.column}`].className = 'node node_shortestPath';
+				this[`node-${node.row}-${node.column}`].className =
+					'node node_shortestPath';
 			}, 50 * i);
 		}
 	}
@@ -170,5 +173,3 @@ export default class Grid extends React.Component {
 		return newGrid;
 	}
 }
-
-
