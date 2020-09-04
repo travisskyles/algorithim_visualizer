@@ -1,15 +1,15 @@
-.menu {
+.header {
 	margin: 0 150px 0 0;
 }
 
-.menu > ul {
+.header > ul {
 	position: relative;
 	display: flex;
 	align-content: center;
 	list-style-type: none;
 }
 
-.menu li {
+.header li {
 	display: flex;
 	align-items: center;
 	padding: 0 20px;
@@ -20,6 +20,10 @@
 	-ms-user-select: none;
 	user-select: none;
 	box-sizing: border-box;
+}
+
+.menu-button {
+	height: 50px;
 }
 
 .menu-button:hover {
@@ -39,6 +43,12 @@
 	border-radius: 7px;
 	border: white 2px solid;
 	box-sizing: border-box;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 	/* box-shadow: 1px 1px 3px black; */
 }
 
@@ -49,9 +59,9 @@
 #dropdown {
 	background-color: rgb(9, 80, 180);
 	position: absolute;
-	width: 150px;
-	top: 52px;
-	left: 157px;
+	width: 126px;
+	top: 50px;
+	/* left: 1px; */
 }
 
 #dropdown > ul {

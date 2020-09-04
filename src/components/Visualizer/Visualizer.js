@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '../Grid/Grid';
-import Menu from '../Menu/Menu';
+import Header from '../Header/Header';
 import './Visualizer.css';
 
 export default class Visualizer extends React.Component {
@@ -53,8 +53,7 @@ export default class Visualizer extends React.Component {
 		return (
 			<>
 				<div className='header'>
-					<h1 id='title'>Algorithm Visualizer</h1>
-					<Menu
+					<Header
 						selectedAlgorithm={this.state.selectedAlgorithm}
 						handleMenuClick={(e) => this.handleMenuClick(e)}
 					/>

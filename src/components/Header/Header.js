@@ -1,14 +1,26 @@
 import React, { useRef } from 'react';
-import './Menu.css';
+import './Header.css';
 
-export default function Menu(props) {
+export default function Header(props) {
   const algorithmButtonRef = useRef();
   const dropdownRef = useRef();
 
 	const { selectedAlgorithm } = props;
-	const goButtonText = selectedAlgorithm
-		? `Visualize ${selectedAlgorithm}!`
-    : 'Visualize!';
+	const goButtonText = (selectedAlgorithm) => {
+    let text;
+    switch (selectedAlgorithm) {
+      case 'astar':
+        text = 'Visualize A*!'
+        break;
+      case 'dijkstras':
+        text = 'Visualize Dijkstras!'
+        break;
+      default:
+        text = 'Visualize!'
+        break;
+    }
+    return text;
+  }
 
   const handleMenuEnter = () => {
     addRemoveClass(algorithmButtonRef, 'add', 'menu-hover-hold');
@@ -67,20 +79,19 @@ export default function Menu(props) {
   }
 
 	return (
-		<div className='menu'>
+		<div className='header'>
+      <h1 id='title'>Algorithm Visualizer</h1>
+      <div
+        //TODO: figure out how to make title dynamic without messing up css
+        id='run-button'
+        value='menu-run'
+        onClick={(e) => props.handleMenuClick(e)}>
+        {goButtonText(selectedAlgorithm)}
+      </div>
 			<ul>
 				<li
-					//TODO: figure out how to make title dynamic without messing up css
-					id='run-button'
-					value='menu-run'
-					onClick={(e) => props.handleMenuClick(e)}>
-					{'Visualize!'}
-				</li>
-				<li
 					className='menu-button'
-					// value='algorithm-null'
 					ref={algorithmButtonRef}
-					// onClick={(e) => props.handleMenuClick(e)}
 					onMouseEnter={() => handleMenuEnter()}
 					onMouseLeave={() => handleMenuLeave()}>
 					Algorithms
