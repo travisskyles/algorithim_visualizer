@@ -1,5 +1,14 @@
 .header {
-	margin: 0 150px 0 0;
+	background-color: rgb(180, 77, 9);
+	color: white;
+	font-weight: bold;
+	height: 75px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	padding: 0 50px;
+	margin-bottom: 15px;
 }
 
 .header > ul {
@@ -35,7 +44,7 @@
 }
 
 #run-button {
-	margin-right: 20px;
+	/* margin-right: 20px; */
 	padding: 15px 10px;
 	background-color: rgb(9, 80, 180);
 	color: white;

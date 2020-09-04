@@ -1,6 +1,7 @@
 import React from 'react';
 import Grid from '../Grid/Grid';
 import Header from '../Header/Header';
+import InfoContainer from '../InfoContainer/InfoContainer';
 import './Visualizer.css';
 
 export default class Visualizer extends React.Component {
@@ -37,7 +38,6 @@ export default class Visualizer extends React.Component {
 				if (name === 'resetBoard') {
           this.setState({ resetBoard: true });
           this.setState({ runVisualization: false });
-          // this.setState({ resetBoard: true });
 				}
 				break;
 			case 'algorithm':
@@ -52,17 +52,13 @@ export default class Visualizer extends React.Component {
 	render() {
 		return (
 			<>
-				<div className='header'>
-					<Header
-						selectedAlgorithm={this.state.selectedAlgorithm}
-						handleMenuClick={(e) => this.handleMenuClick(e)}
-					/>
-				</div>
-				<div className='info-container'>
-					{this.state.selectedAlgorithm
-						? `you selected ${this.state.selectedAlgorithm}`
-						: ''}
-				</div>
+        <Header
+          selectedAlgorithm={this.state.selectedAlgorithm}
+          handleMenuClick={(e) => this.handleMenuClick(e)}
+        />
+        <InfoContainer 
+          selectedAlgorithm={this.state.selectedAlgorithm}
+        />
 				<Grid
 					runVisualization={this.state.runVisualization}
 					selectedAlgorithm={this.state.selectedAlgorithm}
