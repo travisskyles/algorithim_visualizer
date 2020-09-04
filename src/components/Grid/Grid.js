@@ -8,7 +8,7 @@ export default class Grid extends React.Component {
 	constructor(props, ref) {
 		super(props);
 		this.state = {
-			grid: [],
+      grid: [],
 			windowHeight: 0,
 			windowWidth: 0,
 			rows: 25,
@@ -214,7 +214,7 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-        let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true, isVisited: false});
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true});
         this.setState({grid: newGrid});
         // console.log([`node-${node.row}-${node.column}`].className)
 				// this[`node-${node.row}-${node.column}`].className = 'node node_current';
