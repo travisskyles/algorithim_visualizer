@@ -3,40 +3,68 @@ import './Menu.css';
 
 export default function Menu(props) {
   const algorithmButtonRef = useRef();
+  const dropdownRef = useRef();
 	const { selectedAlgorithm } = props;
 	const goButtonText = selectedAlgorithm
 		? `Visualize ${selectedAlgorithm}!`
     : 'Visualize!';
-  let algorithmButtonHover = false;
 
   const handleMenuEnter = () => {
-    algorithmButtonHover = true;
-    hideOrShowElement(algorithmButtonRef, algorithmButtonHover);
-    console.log(algorithmButtonRef.current.className)
+    addRemoveClass(algorithmButtonRef, 'add', 'menu-hover-hold');
+    addRemoveClass(dropdownRef, 'remove', 'hidden');
   }
 
   const handleMenuLeave = () => {
-    algorithmButtonHover = false;
-    hideOrShowElement(algorithmButtonRef, algorithmButtonHover);
-    console.log(algorithmButtonHover);
+    addRemoveClass(algorithmButtonRef, 'remove', 'menu-hover-hold');
+    addRemoveClass(dropdownRef, 'add', 'hidden');
   };
 
-  const hideOrShowElement = (ref, shouldShow) => {
+  const handleDropDownEnter = () => {
+    addRemoveClass(algorithmButtonRef, 'add', 'menu-hover-hold');
+    addRemoveClass(dropdownRef, 'remove', 'hidden');
+
+  }
+
+  const handleDropDownLeave = () => {
+    addRemoveClass(algorithmButtonRef, 'remove', 'menu-hover-hold');
+    addRemoveClass(dropdownRef, 'add', 'hidden');
+  }
+
+  const addRemoveClass = (ref, addOrRemove, className) => {
     let classes = ref.current.className.split(' ');
     if(classes[0] === ''){
       classes = [];
     }
-    console.log(classes);
-    if(shouldShow && classes.includes('hidden')){
-      const newclasses = classes.filter(el => el !== 'hidden').join(' ');
-      ref.current.className = newclasses;
+    switch (addOrRemove) {
+      case 'add':
+        console.log('add', className);
+        if (classes.includes(className)) return;
+        else if (!classes.includes(className)){
+          classes.push(className);
+          let newClasses = classes.length > 1 ? classes.join(' ') : classes.join('');
+          ref.current.className = newClasses;
+          return;
+        }
+        break;
+      case 'remove':
+        console.log('remove', className);
+        if (classes.includes(className)){
+          let newClasses = classes.filter((el) => el !== className);
+          if (newClasses.length === 0) {
+						newClasses = [];
+					} else if (newClasses.length === 1) {
+						newClasses.join('');
+					} else if (newClasses.length > 1) {
+						newClasses.join(' ');
+          }
+          ref.current.className = newClasses;
+          return
+        }
+        else if (!classes.includes(className)) return;
+        break;
+      default:
+        break;
     }
-    if (!shouldShow && !classes.includes('hidden')) {
-      classes.push('hidden');
-      let newClasses = classes.length > 1 ? classes.join(' ') : classes.join('');
-			ref.current.className = newClasses;
-    }
-    return;
   }
 
 	return (
@@ -50,14 +78,20 @@ export default function Menu(props) {
 				</li>
 				<li
           className='menu-button'
-          value='algorithm-null' 
+          value='algorithm-null'
+          ref={algorithmButtonRef}
           onClick={(e) => props.handleMenuClick(e)}
           onMouseEnter={() => handleMenuEnter()}
           onMouseLeave={() => handleMenuLeave()}
           >
 					Algorithms
 				</li>
-        <div id='dropdown' className='hidden' ref={algorithmButtonRef}>
+        <div 
+          id='dropdown' 
+          className='hidden' 
+          ref={dropdownRef} 
+          onMouseEnter={() => handleDropDownEnter()}
+          onMouseLeave={() => handleDropDownLeave()}>
           <ul>
             <li>Dijkstras</li>
             <li>A* Search</li>
