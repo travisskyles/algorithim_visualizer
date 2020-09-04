@@ -76,6 +76,7 @@ export default class Grid extends React.Component {
 	};
 
 	handleClick = (e) => {
+		// this.runAlgorithm(this.props.selectedAlgorithm);
 		this.runAlgorithm(e.target.value);
 	};
 
