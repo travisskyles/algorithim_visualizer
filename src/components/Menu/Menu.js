@@ -7,7 +7,11 @@ export default function Menu(props){
   return (
 		<div className='menu'>
 			<ul>
-				<li>Visualize {algoName}</li>
+				{algoName ? (
+					<li id='run-button'>Visualize {algoName}!</li>
+				) : (
+					<li id='run-button'>Visualize!</li>
+				)}
 				<li>Algorithms</li>
 				<li>Reset Board</li>
 				<li>Clear Walls</li>

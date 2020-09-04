@@ -1,12 +1,36 @@
 .menu {
+	margin: 0 150px 0 0;
 }
 
 .menu > ul {
 	display: flex;
-	align-content: space-between;
+	align-content: center;
 	list-style-type: none;
 }
 
 .menu li {
-	margin: 0 10px;
+	display: flex;
+	align-items: center;
+	margin: 0 20px;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+#run-button {
+	margin-right: 10px;
+	padding: 15px 10px;
+	background-color: rgb(9, 80, 180);
+	color: white;
+	font-weight: bold;
+	border-radius: 7px;
+	border: white 2px solid;
+	/* box-shadow: 1px 1px 3px black; */
+}
+
+#run-button:hover {
+	background-color: rgb(7, 70, 170);
 }
