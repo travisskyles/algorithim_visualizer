@@ -4,7 +4,7 @@ import './Node.css';
 export default function Node(props) {
 	const {
 		isStart,
-		isFinish,
+    isFinish,
 		row,
 		column,
 		isWall,
@@ -13,15 +13,15 @@ export default function Node(props) {
 		onMouseUp,
 		onDragStart,
 		setRef,
-	} = props;
+  } = props;
+
 	const addedClass = isFinish
 		? 'node_finish'
 		: isStart
 		? 'node_start'
 		: isWall
-		? 'node_wall'
+    ? 'node_wall'
 		: 'node_default';
-
 	return (
 		<div
 			id={`node-${row}-${column}`}

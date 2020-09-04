@@ -32,9 +32,7 @@ export default class Visualizer extends React.Component {
 						return;
 					} else {
             this.setState({ runVisualization: true });
-            
-            console.log(this.state.runVisualization)
-					}
+          }
 				}
 				if (name === 'resetBoard') {
           this.setState({ resetBoard: true });

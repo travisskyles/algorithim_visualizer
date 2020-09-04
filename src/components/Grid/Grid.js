@@ -17,7 +17,7 @@ export default class Grid extends React.Component {
 			startNodeColumn: 10,
 			finishNodeRow: 12,
 			finishNodeColumn: 50,
-			mousePressed: false,
+      mousePressed: false,
 			hasRun: false,
 		};
 	}
@@ -40,13 +40,11 @@ export default class Grid extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		console.log(this.props, prevProps);
-		if (
+  	if (
 			this.props.resetBoard !== prevProps.resetBoard &&
 			this.props.resetBoard === true
 		) {
-			console.log('reset');
-			const grid = this.createGrid();
+			const grid = this.resetBoard(this.state.grid);
       this.setState({ grid });
       this.setState({ hasRun: this.props.runVisualization });
 		}
@@ -59,7 +57,18 @@ export default class Grid extends React.Component {
 		}
 	}
 
-	resetBoard(grid) {}
+	resetBoard(grid) {
+    const newGrid = []
+    for (let row = 0; row < grid.length; row++) {
+      const currentRow = [];
+      for (let column = 0; column < row.length; column++) {
+        console.log(column)
+        // this[`node-${node.row}-${node.column}`].className = 'node node_default';
+      }
+      newGrid.push(currentRow);
+    }
+    return grid;
+  }
 
 	setRef = (key, ref) => {
 		this[key] = ref;
@@ -99,13 +108,13 @@ export default class Grid extends React.Component {
 	};
 
 	handleMouseDown(row, column) {
-		const newGrid = this.updateGrid(this.state.grid, row, column);
+		const newGrid = this.updateGrid(this.state.grid, row, column, 'isWall');
 		this.setState({ grid: newGrid, mousePressed: true });
 	}
 
 	handleMouseEnter(row, column) {
 		if (!this.state.mousePressed) return;
-		const newGrid = this.updateGrid(this.state.grid, row, column);
+    const newGrid = this.updateGrid(this.state.grid, row, column, 'isWall');
 		this.setState({ grid: newGrid });
 	}
 
@@ -120,9 +129,6 @@ export default class Grid extends React.Component {
 
 	render() {
 		const { grid } = this.state;
-		// if (this.props.runVisualization) {
-		// 	this.runAlgorithm(this.props.selectedAlgorithm);
-		// }
 		return (
 			<div className='grid_wrapper'>
 				<div className='grid'>
@@ -214,7 +220,7 @@ export default class Grid extends React.Component {
 	animateShortestPath(nodesInShortestOrder) {
 		for (let i = 0; i < nodesInShortestOrder.length; i++) {
 			setTimeout(() => {
-				const node = nodesInShortestOrder[i];
+        const node = nodesInShortestOrder[i];
 				this[`node-${node.row}-${node.column}`].className =
 					'node node_shortestPath';
 			}, 50 * i);
@@ -226,7 +232,7 @@ export default class Grid extends React.Component {
 			column,
 			row,
 			isWall: false,
-			isVisited: false,
+      isVisited: false,
 			weight: 1,
 			isStart:
 				row === this.state.startNodeRow &&
@@ -253,14 +259,10 @@ export default class Grid extends React.Component {
 		return grid;
 	}
 
-	updateGrid(grid, row, column) {
+	updateGrid(grid, row, column, property) {
 		const newGrid = grid.slice();
-		const node = newGrid[row][column];
-		const newNode = {
-			...node,
-			isWall: !node.isWall,
-		};
-		newGrid[row][column] = newNode;
+    const node = newGrid[row][column];
+    node[property] = !node[property];
 		return newGrid;
 	}
 }
