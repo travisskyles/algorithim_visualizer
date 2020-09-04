@@ -34,7 +34,6 @@ export const dijkstras = {
 
 			// set current as visited
 			// push current into visited list
-			current.isVisited = true;
 			visited.push(current);
 
 			// get the neighbors of current

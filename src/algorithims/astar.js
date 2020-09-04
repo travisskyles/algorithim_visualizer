@@ -54,7 +54,6 @@ export const astar = {
 
 			// set current as visited
 			// push current to closed list
-			current.isVisited = true;
 			closed.push(current);
 
 			// get the neighbors of current
