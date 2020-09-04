@@ -108,13 +108,13 @@ export default class Grid extends React.Component {
 	};
 
 	handleMouseDown(row, column) {
-    const newGrid = this.updateGrid(this.state.grid, row, column, ['isWall']);
+    const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
 		this.setState({ grid: newGrid, mousePressed: true });
 	}
 
 	handleMouseEnter(row, column) {
 		if (!this.state.mousePressed) return;
-    const newGrid = this.updateGrid(this.state.grid, row, column, ['isWall']);
+    const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
 		this.setState({ grid: newGrid });
 	}
 
@@ -139,6 +139,7 @@ export default class Grid extends React.Component {
 									const {
 										isStart,
 										isFinish,
+                    isCurrent,
 										row,
 										column,
 										isWall,
@@ -154,6 +155,7 @@ export default class Grid extends React.Component {
 											isWall={isWall}
 											isStart={isStart}
 											isFinish={isFinish}
+                      isCurrent={isCurrent}
 											onDragStart={() => this.handleDragStart()}
 											onMouseDown={(row, col) => this.handleMouseDown(row, col)}
 											onMouseEnter={(row, col) =>
@@ -208,7 +210,9 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-        this.updateGrid(this.state.grid, node.row, node.column, 'isCurrent');
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true});
+        this.setState({grid: newGrid});
+        // console.log([`node-${node.row}-${node.column}`].className)
 				// this[`node-${node.row}-${node.column}`].className = 'node node_current';
 			}, 10 * i);
 
@@ -261,8 +265,8 @@ export default class Grid extends React.Component {
 		return grid;
 	}
 
-  updateGrid(grid, row, column, properties = {}) {
-		const newGrid = grid.slice();
+  updateNode(grid, row, column, properties = {}) {
+    const newGrid = grid.slice();
     const node = newGrid[row][column];
     if(Array.isArray(properties)){
       for (const property of properties) {
@@ -275,6 +279,7 @@ export default class Grid extends React.Component {
     else if (typeof properties === 'function') return
     else {
       for(const property in properties){
+      if(!property) return;
       node[property] = properties[property];
       }
     }

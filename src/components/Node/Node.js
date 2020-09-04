@@ -5,6 +5,7 @@ export default function Node(props) {
 	const {
 		isStart,
     isFinish,
+    isCurrent,
 		row,
 		column,
 		isWall,
@@ -21,7 +22,10 @@ export default function Node(props) {
 		? 'node_start'
 		: isWall
     ? 'node_wall'
-		: 'node_default';
+    : isCurrent
+    ? 'node_current'
+    : 'node_default';
+    
 	return (
 		<div
 			id={`node-${row}-${column}`}
