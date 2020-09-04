@@ -37,7 +37,6 @@ export default function Menu(props) {
     }
     switch (addOrRemove) {
       case 'add':
-        console.log('add', className);
         if (classes.includes(className)) return;
         else if (!classes.includes(className)){
           classes.push(className);
@@ -47,7 +46,6 @@ export default function Menu(props) {
         }
         break;
       case 'remove':
-        console.log('remove', className);
         if (classes.includes(className)){
           let newClasses = classes.filter((el) => el !== className);
           if (newClasses.length === 0) {
