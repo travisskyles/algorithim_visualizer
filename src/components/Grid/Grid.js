@@ -140,6 +140,7 @@ export default class Grid extends React.Component {
 										isStart,
 										isFinish,
                     isCurrent,
+                    isShortest,
 										row,
 										column,
 										isWall,
@@ -156,6 +157,7 @@ export default class Grid extends React.Component {
 											isStart={isStart}
 											isFinish={isFinish}
                       isCurrent={isCurrent}
+                      isShortest={isShortest}
 											onDragStart={() => this.handleDragStart()}
 											onMouseDown={(row, col) => this.handleMouseDown(row, col)}
 											onMouseEnter={(row, col) =>
@@ -217,7 +219,9 @@ export default class Grid extends React.Component {
 			}, 10 * i);
 
 			setTimeout(() => {
-				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false });
+        this.setState({ grid: newGrid });
+				// this[`node-${node.row}-${node.column}`].className = 'node node_visited';
 			}, 10 * i + 50);
 		}
 	}
@@ -226,8 +230,10 @@ export default class Grid extends React.Component {
 		for (let i = 0; i < nodesInShortestOrder.length; i++) {
 			setTimeout(() => {
         const node = nodesInShortestOrder[i];
-				this[`node-${node.row}-${node.column}`].className =
-					'node node_shortestPath';
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false });
+        this.setState({ grid: newGrid });
+				// this[`node-${node.row}-${node.column}`].className =
+				// 	'node node_shortestPath';
 			}, 50 * i);
 		}
 	}
@@ -239,6 +245,7 @@ export default class Grid extends React.Component {
 			isWall: false,
       isVisited: false,
       isCurrent: false,
+      isShortest: false,
 			weight: 1,
 			isStart:
 				row === this.state.startNodeRow &&
