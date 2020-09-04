@@ -107,7 +107,9 @@ export const astar = {
 		while (current.previousNode) {
 			result.push(current);
 			current = current.previousNode;
-		}
+    }
+    // makes sure to include starting node
+    result.push(current);
 		return result.reverse();
 	},
 	/**
