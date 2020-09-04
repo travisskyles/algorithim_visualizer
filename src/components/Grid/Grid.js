@@ -18,6 +18,8 @@ export default class Grid extends React.Component {
 			finishNodeRow: 12,
 			finishNodeColumn: 50,
 			mousePressed: false,
+			runVisualization: false,
+			selectedAlgorithm: '',
 		};
 	}
 
@@ -36,6 +38,17 @@ export default class Grid extends React.Component {
 			const grid = this.createGrid();
 			this.setState({ grid });
 		});
+	}
+
+	static getDerivedStateFromProps(props, state) {
+		const newState = {};
+		if (props.runVisualization !== state.runVisualization) {
+			newState.runVisualization = props.runVisualization;
+		}
+		if (props.selectedAlgorithm !== state.selectedAlgorithm) {
+			newState.selectedAlgorithm = props.selectedAlgorithm;
+		}
+		return Object.keys(newState).length ? newState : null;
 	}
 
 	setRef = (key, ref) => {
@@ -76,7 +89,6 @@ export default class Grid extends React.Component {
 	};
 
 	handleClick = (e) => {
-		// this.runAlgorithm(this.props.selectedAlgorithm);
 		this.runAlgorithm(e.target.value);
 	};
 
@@ -102,14 +114,19 @@ export default class Grid extends React.Component {
 
 	render() {
 		const { grid } = this.state;
+		console.log(this.state.runVisualization);
+		console.log(this.state.selectedAlgorithm);
+		if (this.state.runVisualization) {
+			this.runAlgorithm(this.state.selectedAlgorithm);
+		}
 		return (
 			<div className='grid_wrapper'>
-				<button value={'dijkstras'} onClick={(e) => this.handleClick(e)}>
+				{/* <button value={'dijkstras'} onClick={(e) => this.handleClick(e)}>
 					Dijkstras
 				</button>
 				<button value={'astar'} onClick={(e) => this.handleClick(e)}>
 					A-Star
-				</button>
+				</button> */}
 				<div className='grid'>
 					{grid.map((row, idxRow) => {
 						return (

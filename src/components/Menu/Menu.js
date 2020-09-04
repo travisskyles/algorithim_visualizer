@@ -4,6 +4,7 @@ import './Menu.css';
 export default function Menu(props) {
   const algorithmButtonRef = useRef();
   const dropdownRef = useRef();
+
 	const { selectedAlgorithm } = props;
 	const goButtonText = selectedAlgorithm
 		? `Visualize ${selectedAlgorithm}!`
@@ -69,7 +70,7 @@ export default function Menu(props) {
 		<div className='menu'>
 			<ul>
 				<li
-          //TODO: figure out how to make title dynamic without messing up css
+					//TODO: figure out how to make title dynamic without messing up css
 					id='run-button'
 					value='menu-run'
 					onClick={(e) => props.handleMenuClick(e)}>

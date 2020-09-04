@@ -9,23 +9,36 @@ export default class Visualizer extends React.Component {
 		this.state = {
       selectedAlgorithm: '',
       menuSelected: '',
+      runVisualization: false,
     };
   }
   
   handleMenuClick = (e) => {
     let [type, name] = e.target.getAttribute('value').split('-');
-    console.log(type, name)
     switch(type){
       case 'menu':
-        this.setState({menuSelected: name})
+        this.setState({menuSelected: name});
+        if(name === 'run') {
+          if(!this.state.selectedAlgorithm){
+            // TODO: do something else when no selected algorithm
+            console.log('no selection');
+            return;
+          }
+          else {
+            this.setState({runVisualization: true});
+          }
+        }
         break;
       case 'algorithm':
-        this.setState({selectedAlgorithm: name})
+        this.setState({selectedAlgorithm: name});
+        console.log(name)
         break;
       default:
           return
     }
   }
+
+  
 
 	render() {
 		return (
@@ -33,12 +46,16 @@ export default class Visualizer extends React.Component {
 				<div className='header'>
 					<h1 id='title'>Algorithm Visualizer</h1>
 					<Menu 
-          selectedAlgorithm={this.state.selectedAlgorithm} handleMenuClick={(e) => this.handleMenuClick(e)} />
+            selectedAlgorithm={this.state.selectedAlgorithm} 
+            handleMenuClick={(e) => this.handleMenuClick(e)} 
+            />
 				</div>
 				<div className='info-container'></div>
 				<Grid
-					menuSelected={this.state.menuSelected}
-					selectedAlgoritim={this.state.selectedAlgorithm}
+					// menuSelected={this.state.menuSelected}
+          runVisualization={this.state.runVisualization}
+					selectedAlgorithm={this.state.selectedAlgorithm}
+          // ref={ref => { this.Grid = ref; }}
 				/>
 			</>
 		);
