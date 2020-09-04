@@ -108,13 +108,13 @@ export default class Grid extends React.Component {
 	};
 
 	handleMouseDown(row, column) {
-		const newGrid = this.updateGrid(this.state.grid, row, column, 'isWall');
+    const newGrid = this.updateGrid(this.state.grid, row, column, ['isWall']);
 		this.setState({ grid: newGrid, mousePressed: true });
 	}
 
 	handleMouseEnter(row, column) {
 		if (!this.state.mousePressed) return;
-    const newGrid = this.updateGrid(this.state.grid, row, column, 'isWall');
+    const newGrid = this.updateGrid(this.state.grid, row, column, ['isWall']);
 		this.setState({ grid: newGrid });
 	}
 
@@ -208,7 +208,8 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-				this[`node-${node.row}-${node.column}`].className = 'node node_current';
+        this.updateGrid(this.state.grid, node.row, node.column, 'isCurrent');
+				// this[`node-${node.row}-${node.column}`].className = 'node node_current';
 			}, 10 * i);
 
 			setTimeout(() => {
@@ -233,6 +234,7 @@ export default class Grid extends React.Component {
 			row,
 			isWall: false,
       isVisited: false,
+      isCurrent: false,
 			weight: 1,
 			isStart:
 				row === this.state.startNodeRow &&
@@ -259,10 +261,23 @@ export default class Grid extends React.Component {
 		return grid;
 	}
 
-	updateGrid(grid, row, column, property) {
+  updateGrid(grid, row, column, properties = {}) {
 		const newGrid = grid.slice();
     const node = newGrid[row][column];
-    node[property] = !node[property];
+    if(Array.isArray(properties)){
+      for (const property of properties) {
+        node[property] = !node[property];
+      }
+    }
+    else if (typeof properties === 'string') return
+    else if (typeof properties === 'boolean') return
+    else if (typeof properties === 'undefined') return
+    else if (typeof properties === 'function') return
+    else {
+      for(const property in properties){
+      node[property] = properties[property];
+      }
+    }
 		return newGrid;
 	}
 }
