@@ -6,6 +6,16 @@
 }
 
 .header {
-	background-color: rgb(104, 104, 104);
+	background-color: rgb(180, 77, 9);
+	color: white;
 	height: 75px;
+	width: 100%;
+	padding: 0 15px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#title {
+	margin: 0;
 }
