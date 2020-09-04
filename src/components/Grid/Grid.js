@@ -76,16 +76,7 @@ export default class Grid extends React.Component {
 	};
 
 	handleClick = (e) => {
-		switch (e.target.value) {
-			case 'dijkstras':
-				this.runDijkstras();
-				break;
-			case 'astar':
-				this.runAstar();
-				break;
-			default:
-				return;
-		}
+		this.runAlgorithm(e.target.value);
 	};
 
 	handleMouseDown(row, column) {
@@ -157,7 +148,7 @@ export default class Grid extends React.Component {
 		);
 	}
 
-	runDijkstras() {
+	runAlgorithm(algorithmName) {
 		const {
 			grid,
 			startNodeRow,
@@ -167,23 +158,21 @@ export default class Grid extends React.Component {
 		} = this.state;
 		const startNode = grid[startNodeRow][startNodeColumn];
 		const finishNode = grid[finishNodeRow][finishNodeColumn];
-		const visitedInOrder = dijkstras.run(grid, startNode, finishNode);
-		const shortestInOrder = dijkstras.getShortestPath(finishNode);
-		this.animate(visitedInOrder, shortestInOrder);
-	}
+		let visitedInOrder;
+		let shortestInOrder;
 
-	runAstar() {
-		const {
-			grid,
-			startNodeRow,
-			startNodeColumn,
-			finishNodeRow,
-			finishNodeColumn,
-		} = this.state;
-		const startNode = grid[startNodeRow][startNodeColumn];
-		const finishNode = grid[finishNodeRow][finishNodeColumn];
-		const visitedInOrder = astar.run(grid, startNode, finishNode);
-		const shortestInOrder = astar.getShortestPath(finishNode);
+		switch (algorithmName) {
+			case 'dijkstras':
+				visitedInOrder = dijkstras.run(grid, startNode, finishNode);
+				shortestInOrder = dijkstras.getShortestPath(finishNode);
+				break;
+			case 'astar':
+				visitedInOrder = astar.run(grid, startNode, finishNode);
+				shortestInOrder = astar.getShortestPath(finishNode);
+				break;
+			default:
+				return;
+		}
 		this.animate(visitedInOrder, shortestInOrder);
 	}
 
