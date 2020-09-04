@@ -69,48 +69,56 @@ export default function Menu(props) {
 		<div className='menu'>
 			<ul>
 				<li
+          //TODO: figure out how to make title dynamic without messing up css
 					id='run-button'
 					value='menu-run'
 					onClick={(e) => props.handleMenuClick(e)}>
-					{goButtonText}
+					{'Visualize!'}
 				</li>
 				<li
-          className='menu-button'
-          value='algorithm-null'
-          ref={algorithmButtonRef}
-          onClick={(e) => props.handleMenuClick(e)}
-          onMouseEnter={() => handleMenuEnter()}
-          onMouseLeave={() => handleMenuLeave()}
-          >
+					className='menu-button'
+					// value='algorithm-null'
+					ref={algorithmButtonRef}
+					// onClick={(e) => props.handleMenuClick(e)}
+					onMouseEnter={() => handleMenuEnter()}
+					onMouseLeave={() => handleMenuLeave()}>
 					Algorithms
 				</li>
-        <div 
-          id='dropdown' 
-          className='hidden' 
-          ref={dropdownRef} 
-          onMouseEnter={() => handleDropDownEnter()}
-          onMouseLeave={() => handleDropDownLeave()}>
-          <ul>
-            <li>Dijkstras</li>
-            <li>A* Search</li>
-          </ul>
-        </div>
+				<div
+					id='dropdown'
+					className='hidden'
+					ref={dropdownRef}
+					onMouseEnter={() => handleDropDownEnter()}
+					onMouseLeave={() => handleDropDownLeave()}>
+					<ul>
+						<li
+							value='algorithm-dijkstras'
+							onClick={(e) => props.handleMenuClick(e)}>
+							Dijkstras
+						</li>
+						<li
+							value='algorithm-astar'
+							onClick={(e) => props.handleMenuClick(e)}>
+							A* Search
+						</li>
+					</ul>
+				</div>
 				<li
-          className='menu-button'
-          value='menu-resetBoard' 
-          onClick={(e) => props.handleMenuClick(e)}>
+					className='menu-button'
+					value='menu-resetBoard'
+					onClick={(e) => props.handleMenuClick(e)}>
 					Reset Board
 				</li>
 				<li
-          className='menu-button'
-          value='menu-clearWalls' 
-          onClick={(e) => props.handleMenuClick(e)}>
+					className='menu-button'
+					value='menu-clearWalls'
+					onClick={(e) => props.handleMenuClick(e)}>
 					Clear Walls
 				</li>
 				<li
-          className='menu-button'
-          value='menu-clearWeights' 
-          onClick={(e) => props.handleMenuClick(e)}>
+					className='menu-button'
+					value='menu-clearWeights'
+					onClick={(e) => props.handleMenuClick(e)}>
 					Clear Weights
 				</li>
 			</ul>
