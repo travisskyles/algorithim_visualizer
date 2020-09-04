@@ -7,6 +7,7 @@ export default function Node(props) {
     isFinish,
     isCurrent,
     isShortest,
+    isVisited,
 		row,
 		column,
 		isWall,
@@ -25,6 +26,8 @@ export default function Node(props) {
     ? 'node_wall'
     : isCurrent
     ? 'node_current'
+    : isVisited
+    ? 'node_visited'
     : isShortest
     ? 'node_shortestPath'
     : 'node_default';

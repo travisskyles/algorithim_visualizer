@@ -141,6 +141,7 @@ export default class Grid extends React.Component {
 										isFinish,
                     isCurrent,
                     isShortest,
+                    isVisited,
 										row,
 										column,
 										isWall,
@@ -158,6 +159,7 @@ export default class Grid extends React.Component {
 											isFinish={isFinish}
                       isCurrent={isCurrent}
                       isShortest={isShortest}
+                      isVisited={isVisited}
 											onDragStart={() => this.handleDragStart()}
 											onMouseDown={(row, col) => this.handleMouseDown(row, col)}
 											onMouseEnter={(row, col) =>
@@ -212,14 +214,14 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-        let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true});
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true, isVisited: false});
         this.setState({grid: newGrid});
         // console.log([`node-${node.row}-${node.column}`].className)
 				// this[`node-${node.row}-${node.column}`].className = 'node node_current';
 			}, 10 * i);
 
 			setTimeout(() => {
-        let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false });
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: true });
         this.setState({ grid: newGrid });
 				// this[`node-${node.row}-${node.column}`].className = 'node node_visited';
 			}, 10 * i + 50);
@@ -230,7 +232,7 @@ export default class Grid extends React.Component {
 		for (let i = 0; i < nodesInShortestOrder.length; i++) {
 			setTimeout(() => {
         const node = nodesInShortestOrder[i];
-        let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false });
+        let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: false, isShortest: true });
         this.setState({ grid: newGrid });
 				// this[`node-${node.row}-${node.column}`].className =
 				// 	'node node_shortestPath';
