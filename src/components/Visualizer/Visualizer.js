@@ -7,55 +7,69 @@ export default class Visualizer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-      selectedAlgorithm: '',
-      menuSelected: '',
-      runVisualization: false,
-    };
-  }
-  
-  handleMenuClick = (e) => {
-    let [type, name] = e.target.getAttribute('value').split('-');
-    switch(type){
-      case 'menu':
-        this.setState({menuSelected: name});
-        if(name === 'run') {
-          if(!this.state.selectedAlgorithm){
-            // TODO: do something else when no selected algorithm
-            console.log('no selection');
-            return;
-          }
-          else {
-            this.setState({runVisualization: true});
-          }
-        }
-        break;
-      case 'algorithm':
-        this.setState({selectedAlgorithm: name});
-        console.log(name)
-        break;
-      default:
-          return
-    }
+			selectedAlgorithm: '',
+			menuSelected: '',
+			runVisualization: false,
+			resetBoard: false,
+		};
   }
 
-  
+	setStateAsync(state) {
+		return new Promise((resolve) => {
+			this.setState(state, resolve);
+		});
+	}
+
+	handleMenuClick = (e) => {
+		let [type, name] = e.target.getAttribute('value').split('-');
+		switch (type) {
+			case 'menu':
+				this.setState({ menuSelected: name });
+				if (name === 'run') {
+					if (!this.state.selectedAlgorithm) {
+						// TODO: do something else when no selected algorithm
+						console.log('no selection');
+						return;
+					} else {
+            this.setState({ runVisualization: true });
+            
+            console.log(this.state.runVisualization)
+					}
+				}
+				if (name === 'resetBoard') {
+          this.setState({ resetBoard: true });
+          this.setState({ runVisualization: false });
+          // this.setState({ resetBoard: true });
+				}
+				break;
+			case 'algorithm':
+				this.setState({ selectedAlgorithm: name });
+				console.log(name);
+				break;
+			default:
+				return;
+    }
+	};
 
 	render() {
 		return (
 			<>
 				<div className='header'>
 					<h1 id='title'>Algorithm Visualizer</h1>
-					<Menu 
-            selectedAlgorithm={this.state.selectedAlgorithm} 
-            handleMenuClick={(e) => this.handleMenuClick(e)} 
-            />
+					<Menu
+						selectedAlgorithm={this.state.selectedAlgorithm}
+						handleMenuClick={(e) => this.handleMenuClick(e)}
+					/>
 				</div>
-				<div className='info-container'></div>
+				<div className='info-container'>
+					{this.state.selectedAlgorithm
+						? `you selected ${this.state.selectedAlgorithm}`
+						: ''}
+				</div>
 				<Grid
-					// menuSelected={this.state.menuSelected}
-          runVisualization={this.state.runVisualization}
+					runVisualization={this.state.runVisualization}
 					selectedAlgorithm={this.state.selectedAlgorithm}
-          // ref={ref => { this.Grid = ref; }}
+					resetBoard={this.state.resetBoard}
 				/>
 			</>
 		);

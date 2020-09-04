@@ -5,7 +5,7 @@ import Node from '../Node/Node';
 import './Grid.css';
 
 export default class Grid extends React.Component {
-	constructor(props) {
+	constructor(props, ref) {
 		super(props);
 		this.state = {
 			grid: [],
@@ -18,8 +18,7 @@ export default class Grid extends React.Component {
 			finishNodeRow: 12,
 			finishNodeColumn: 50,
 			mousePressed: false,
-			runVisualization: false,
-			selectedAlgorithm: '',
+			hasRun: false,
 		};
 	}
 
@@ -40,16 +39,27 @@ export default class Grid extends React.Component {
 		});
 	}
 
-	static getDerivedStateFromProps(props, state) {
-		const newState = {};
-		if (props.runVisualization !== state.runVisualization) {
-			newState.runVisualization = props.runVisualization;
+	componentDidUpdate(prevProps, prevState) {
+		console.log(this.props, prevProps);
+		if (
+			this.props.resetBoard !== prevProps.resetBoard &&
+			this.props.resetBoard === true
+		) {
+			console.log('reset');
+			const grid = this.createGrid();
+      this.setState({ grid });
+      this.setState({ hasRun: this.props.runVisualization });
 		}
-		if (props.selectedAlgorithm !== state.selectedAlgorithm) {
-			newState.selectedAlgorithm = props.selectedAlgorithm;
+		if (
+			this.props.runVisualization !== prevProps.runVisualization &&
+			this.props.runVisualization === true
+		) {
+			this.runAlgorithm(this.props.selectedAlgorithm);
+			this.setState({ hasRun: true });
 		}
-		return Object.keys(newState).length ? newState : null;
 	}
+
+	resetBoard(grid) {}
 
 	setRef = (key, ref) => {
 		this[key] = ref;
@@ -88,10 +98,6 @@ export default class Grid extends React.Component {
 		}
 	};
 
-	handleClick = (e) => {
-		this.runAlgorithm(e.target.value);
-	};
-
 	handleMouseDown(row, column) {
 		const newGrid = this.updateGrid(this.state.grid, row, column);
 		this.setState({ grid: newGrid, mousePressed: true });
@@ -114,19 +120,11 @@ export default class Grid extends React.Component {
 
 	render() {
 		const { grid } = this.state;
-		console.log(this.state.runVisualization);
-		console.log(this.state.selectedAlgorithm);
-		if (this.state.runVisualization) {
-			this.runAlgorithm(this.state.selectedAlgorithm);
-		}
+		// if (this.props.runVisualization) {
+		// 	this.runAlgorithm(this.props.selectedAlgorithm);
+		// }
 		return (
 			<div className='grid_wrapper'>
-				{/* <button value={'dijkstras'} onClick={(e) => this.handleClick(e)}>
-					Dijkstras
-				</button>
-				<button value={'astar'} onClick={(e) => this.handleClick(e)}>
-					A-Star
-				</button> */}
 				<div className='grid'>
 					{grid.map((row, idxRow) => {
 						return (
