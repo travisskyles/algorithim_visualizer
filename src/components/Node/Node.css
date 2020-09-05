@@ -6,6 +6,9 @@
 	-moz-user-drag: none;
 	-o-user-drag: none;
 	user-drag: none;
+	text-align: center;
+	line-height: 25px;
+	font-weight: bold;
 }
 
 .node_start {

@@ -59,7 +59,7 @@ export default class Grid extends React.Component {
 			this.runAlgorithm(this.props.selectedAlgorithm);
 			this.setState({ hasRun: true });
 		}
-		// check whether clear walls should work
+		// check whether wall should clear
 		if (
 			this.props.clearWalls !== prevProps.clearWalls &&
 			this.props.clearWalls === true
@@ -67,7 +67,7 @@ export default class Grid extends React.Component {
 			this.clearWalls(this.state.grid);
 			this.props.clearWallsResetState();
 		}
-		// check whether clear weights should work
+		// check whether weights should clear
 		if (
 			this.props.clearWeights !== prevProps.clearWeights &&
 			this.props.clearWeights === true
@@ -75,6 +75,13 @@ export default class Grid extends React.Component {
 			this.clearWeights(this.state.grid);
 			this.props.clearWeightsResetState();
 		}
+		// check if weights should be added
+		// if (
+		//   this.props.setWeight !== prevProps.setWeight &&
+		//   this.props.setWeight === true
+		// ) {
+		//   this.setWeight(this.state.grid);
+		// }
 	}
 
 	resetBoard(grid) {
@@ -155,6 +162,7 @@ export default class Grid extends React.Component {
 	};
 
 	handleMouseDown(row, column) {
+		if (this.props.setWeight) return;
 		if (this.state.grid[row][column].isStart) {
 			this.setState({ startSelected: true, mousePressed: true });
 		} else if (this.state.grid[row][column].isFinish) {
@@ -222,8 +230,14 @@ export default class Grid extends React.Component {
 		this.setState({ mousePressed: false });
 	}
 
-	handleKeyPress(e) {
-		console.log(e);
+	handleMouseClick(row, column) {
+		if (this.props.setWeight) {
+			const newGrid = this.updateNode(this.state.grid, row, column, {
+				weight: this.state.grid[row][column].weight + 1,
+			});
+			this.setState({ grid: newGrid });
+			console.log(this.state.grid[row][column].weight);
+		}
 	}
 
 	render() {
@@ -259,6 +273,9 @@ export default class Grid extends React.Component {
 											isCurrent={isCurrent}
 											isShortest={isShortest}
 											isVisited={isVisited}
+											onClick={(row, column) =>
+												this.handleMouseClick(row, column)
+											}
 											onMouseDown={(row, column) =>
 												this.handleMouseDown(row, column)
 											}
