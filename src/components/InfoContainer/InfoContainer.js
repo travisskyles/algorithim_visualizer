@@ -6,14 +6,13 @@ export default function InfoContainer(props){
   const resetMessage = () => {
 
   }
-
+  console.log(props);
   return (
     <div className='info-container'>
       <div className='message_box'>
         <p>
-          Hello
-          {props.selectedAlgorithm
-          ? `you selected ${props.selectedAlgorithm}`
+          {props.message
+          ? props.message
           : ''}
         </p>
 

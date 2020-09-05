@@ -16,34 +16,53 @@ export default class Visualizer extends React.Component {
 		};
   }
 
-	setStateAsync(state) {
-		return new Promise((resolve) => {
-			this.setState(state, resolve);
-		});
-	}
+  getAlgorithmText = (selectedAlgorithm) => {
+    let text;
+    switch (selectedAlgorithm) {
+      case 'astar':
+        text = 'A* Search'
+        break;
+      case 'dijkstras':
+        text = 'Dijkstras'
+        break;
+      default:
+        break;
+    }
+    return text;
+  }
 
 	handleMenuClick = (e) => {
 		let [type, name] = e.target.getAttribute('value').split('-');
 		switch (type) {
 			case 'menu':
-				this.setState({ menuSelected: name });
-				if (name === 'run') {
-					if (!this.state.selectedAlgorithm) {
-            this.setState({message: 'No Selection, please choose an algorithm to run.'})
-						return;
-					} else {
-            this.setState({ runVisualization: true });
-            this.setState({ message: `${this.state.selectedAlgorithm} selected. Click Visualize to run!` });
-          }
-				}
-				if (name === 'resetBoard') {
-          this.setState({ resetBoard: true });
-          this.setState({ runVisualization: false });
-          this.setState({ message: 'Board Reset!' });
-				}
+        this.setState({ menuSelected: name });
+        switch (name) {
+          case 'run':
+            if (!this.state.selectedAlgorithm) {
+              this.setState({ message: 'No Selection, please choose an algorithm to run.' })
+              return;
+            } else {
+              this.setState({ runVisualization: true });
+            }
+            break;
+          case 'resetBoard':
+            this.setState({ resetBoard: true });
+            this.setState({ runVisualization: false });
+            this.setState({ message: 'Board Reset!' });
+          break;
+          case 'clearWalls':
+            this.setState({ message: 'Walls Cleared!' });
+          break
+          case 'clearWeights':
+            this.setState({ message: 'Weights Cleared!' });
+          break
+          default:
+            break;
+        }
 				break;
 			case 'algorithm':
-				this.setState({ selectedAlgorithm: name });
+        this.setState({ selectedAlgorithm: name });
+        this.setState({ message: `${this.getAlgorithmText(name)} selected. Click Visualize to run!` });
 				break;
 			default:
 				return;
