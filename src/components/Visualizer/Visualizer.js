@@ -99,7 +99,7 @@ export default class Visualizer extends React.Component {
 			<div
 				tabIndex={0}
 				onKeyDown={(e) => this.handleKeyDown(e)}
-				onKeyUp={(e) => handleKeyUp(e)}>
+				onKeyUp={(e) => this.handleKeyUp(e)}>
 				<Header
 					selectedAlgorithm={this.state.selectedAlgorithm}
 					handleMenuClick={(e) => this.handleMenuClick(e)}
