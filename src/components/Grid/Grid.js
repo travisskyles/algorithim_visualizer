@@ -60,7 +60,14 @@ export default class Grid extends React.Component {
 			this.props.clearWalls === true
 		) {
 			this.clearWalls(this.state.grid);
-			this.props.clearWallResetState();
+			this.props.clearWallsResetState();
+		}
+		if (
+			this.props.clearWeights !== prevProps.clearWeights &&
+			this.props.clearWeights === true
+		) {
+			this.clearWeights(this.state.grid);
+			this.props.clearWeightsResetState();
 		}
 	}
 
@@ -90,6 +97,15 @@ export default class Grid extends React.Component {
 		for (let row = 0; row < grid.length; row++) {
 			for (let column = 0; column < grid[row].length; column++) {
 				const newGrid = this.updateNode(grid, row, column, { isWall: false });
+				this.setState({ grid: newGrid });
+			}
+		}
+	};
+
+	clearWeights = (grid) => {
+		for (let row = 0; row < grid.length; row++) {
+			for (let column = 0; column < grid[row].length; column++) {
+				const newGrid = this.updateNode(grid, row, column, { weight: 1 });
 				this.setState({ grid: newGrid });
 			}
 		}

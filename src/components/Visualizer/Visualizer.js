@@ -57,6 +57,7 @@ export default class Visualizer extends React.Component {
 						this.setState({ message: 'Walls Cleared!' });
 						break;
 					case 'clearWeights':
+						this.setState({ clearWeights: true });
 						this.setState({ message: 'Weights Cleared!' });
 						break;
 					default:
@@ -76,8 +77,12 @@ export default class Visualizer extends React.Component {
 		}
 	};
 
-	clearWallResetState = () => {
+	clearWallsResetState = () => {
 		this.setState({ clearWalls: false });
+	};
+
+	clearWeightsResetState = () => {
+		this.setState({ clearWeights: false });
 	};
 
 	render() {
@@ -96,8 +101,9 @@ export default class Visualizer extends React.Component {
 					selectedAlgorithm={this.state.selectedAlgorithm}
 					resetBoard={this.state.resetBoard}
 					clearWalls={this.state.clearWalls}
-					clearWallResetState={() => this.clearWallResetState()}
+					clearWallsResetState={() => this.clearWallsResetState()}
 					clearWeights={this.state.clearWeights}
+					clearWeightsResetState={() => this.clearWeightsResetState()}
 				/>
 			</>
 		);
