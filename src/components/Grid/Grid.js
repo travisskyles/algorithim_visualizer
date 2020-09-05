@@ -8,7 +8,7 @@ export default class Grid extends React.Component {
 	constructor(props, ref) {
 		super(props);
 		this.state = {
-      grid: [],
+			grid: [],
 			windowHeight: 0,
 			windowWidth: 0,
 			rows: 25,
@@ -17,7 +17,7 @@ export default class Grid extends React.Component {
 			startNodeColumn: 10,
 			finishNodeRow: 12,
 			finishNodeColumn: 50,
-      mousePressed: false,
+			mousePressed: false,
 			hasRun: false,
 		};
 	}
@@ -40,13 +40,14 @@ export default class Grid extends React.Component {
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-  	if (
+		if (
 			this.props.resetBoard !== prevProps.resetBoard &&
 			this.props.resetBoard === true
 		) {
 			const grid = this.resetBoard(this.state.grid);
-      this.setState({ grid });
-      this.setState({ hasRun: this.props.runVisualization });
+			console.log(grid);
+			this.setState({ grid });
+			this.setState({ hasRun: this.props.runVisualization });
 		}
 		if (
 			this.props.runVisualization !== prevProps.runVisualization &&
@@ -58,17 +59,26 @@ export default class Grid extends React.Component {
 	}
 
 	resetBoard(grid) {
-    const newGrid = []
-    for (let row = 0; row < grid.length; row++) {
-      const currentRow = [];
-      for (let column = 0; column < row.length; column++) {
-        console.log(column)
-        // this[`node-${node.row}-${node.column}`].className = 'node node_default';
-      }
-      newGrid.push(currentRow);
-    }
-    return grid;
-  }
+		const newGrid = grid.slice();
+		for (let row = 0; row < grid.length; row++) {
+			for (let column = 0; column < grid[row].length; column++) {
+				if (
+					row === this.state.startNodeRow &&
+					column === this.state.startNodeColumn
+				) {
+					this[`node-${row}-${column}`].className = 'node node_start';
+				} else if (
+					row === this.state.finishNodeRow &&
+					column === this.state.finishNodeColumn
+				) {
+					this[`node-${row}-${column}`].className = 'node node_finish';
+				} else {
+					this[`node-${row}-${column}`].className = 'node node_default';
+				}
+			}
+		}
+		return newGrid;
+	}
 
 	setRef = (key, ref) => {
 		this[key] = ref;
@@ -108,13 +118,13 @@ export default class Grid extends React.Component {
 	};
 
 	handleMouseDown(row, column) {
-    const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
+		const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
 		this.setState({ grid: newGrid, mousePressed: true });
 	}
 
 	handleMouseEnter(row, column) {
 		if (!this.state.mousePressed) return;
-    const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
+		const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
 		this.setState({ grid: newGrid });
 	}
 
@@ -139,9 +149,9 @@ export default class Grid extends React.Component {
 									const {
 										isStart,
 										isFinish,
-                    isCurrent,
-                    isShortest,
-                    isVisited,
+										isCurrent,
+										isShortest,
+										isVisited,
 										row,
 										column,
 										isWall,
@@ -157,9 +167,9 @@ export default class Grid extends React.Component {
 											isWall={isWall}
 											isStart={isStart}
 											isFinish={isFinish}
-                      isCurrent={isCurrent}
-                      isShortest={isShortest}
-                      isVisited={isVisited}
+											isCurrent={isCurrent}
+											isShortest={isShortest}
+											isVisited={isVisited}
 											onDragStart={() => this.handleDragStart()}
 											onMouseDown={(row, col) => this.handleMouseDown(row, col)}
 											onMouseEnter={(row, col) =>
@@ -214,15 +224,15 @@ export default class Grid extends React.Component {
 				return;
 			}
 			setTimeout(() => {
-        // let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true});
-        // this.setState({grid: newGrid});
-        // console.log([`node-${node.row}-${node.column}`].className)
+				// let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true});
+				// this.setState({grid: newGrid});
+				// console.log([`node-${node.row}-${node.column}`].className)
 				this[`node-${node.row}-${node.column}`].className = 'node node_current';
 			}, 10 * i);
 
 			setTimeout(() => {
-        // let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: true });
-        // this.setState({ grid: newGrid });
+				// let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: true });
+				// this.setState({ grid: newGrid });
 				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
 			}, 10 * i + 10);
 		}
@@ -231,10 +241,11 @@ export default class Grid extends React.Component {
 	animateShortestPath(nodesInShortestOrder) {
 		for (let i = 0; i < nodesInShortestOrder.length; i++) {
 			setTimeout(() => {
-        const node = nodesInShortestOrder[i];
-        // let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: false, isShortest: true });
-        // this.setState({ grid: newGrid });
-				this[`node-${node.row}-${node.column}`].className = 'node node_shortestPath';
+				const node = nodesInShortestOrder[i];
+				// let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: false, isShortest: true });
+				// this.setState({ grid: newGrid });
+				this[`node-${node.row}-${node.column}`].className =
+					'node node_shortestPath';
 			}, 50 * i);
 		}
 	}
@@ -244,9 +255,9 @@ export default class Grid extends React.Component {
 			column,
 			row,
 			isWall: false,
-      isVisited: false,
-      isCurrent: false,
-      isShortest: false,
+			isVisited: false,
+			isCurrent: false,
+			isShortest: false,
 			weight: 1,
 			isStart:
 				row === this.state.startNodeRow &&
@@ -273,24 +284,23 @@ export default class Grid extends React.Component {
 		return grid;
 	}
 
-  updateNode(grid, row, column, properties = {}) {
-    const newGrid = grid.slice();
-    const node = newGrid[row][column];
-    if(Array.isArray(properties)){
-      for (const property of properties) {
-        node[property] = !node[property];
-      }
-    }
-    else if (typeof properties === 'string') return
-    else if (typeof properties === 'boolean') return
-    else if (typeof properties === 'undefined') return
-    else if (typeof properties === 'function') return
-    else {
-      for(const property in properties){
-      if(!property) return;
-      node[property] = properties[property];
-      }
-    }
+	updateNode(grid, row, column, properties = {}) {
+		const newGrid = grid.slice();
+		const node = newGrid[row][column];
+		if (Array.isArray(properties)) {
+			for (const property of properties) {
+				node[property] = !node[property];
+			}
+		} else if (typeof properties === 'string') return;
+		else if (typeof properties === 'boolean') return;
+		else if (typeof properties === 'undefined') return;
+		else if (typeof properties === 'function') return;
+		else {
+			for (const property in properties) {
+				if (!property) return;
+				node[property] = properties[property];
+			}
+		}
 		return newGrid;
 	}
 }
