@@ -33,13 +33,20 @@ export default function Node(props) {
 		? 'node_shortestPath'
 		: 'node_default';
 
+	const handleDrag = (e) => {
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
+	};
+
 	return (
 		<div
 			id={`node-${row}-${column}`}
 			ref={(refElem) => setRef(`node-${row}-${column}`, refElem)}
 			className={`node ${addedClass}`}
 			draggable={false}
-			onDragStart={() => onDragStart(row, column)}
+			onDrag={(e) => handleDrag(e)}
+			onDragStart={(e) => handleDrag(e)}
 			onMouseDown={() => onMouseDown(row, column)}
 			onMouseUp={() => onMouseUp(row, column)}
 			onMouseEnter={() => onMouseEnter(row, column)}

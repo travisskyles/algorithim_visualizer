@@ -223,11 +223,6 @@ export default class Grid extends React.Component {
 		this.setState({ mousePressed: false });
 	}
 
-	handleDragStart() {
-		this.setState({ mousePressed: false });
-		return false;
-	}
-
 	render() {
 		const { grid } = this.state;
 		return (
@@ -261,7 +256,6 @@ export default class Grid extends React.Component {
 											isCurrent={isCurrent}
 											isShortest={isShortest}
 											isVisited={isVisited}
-											onDragStart={() => this.handleDragStart()}
 											onMouseDown={(row, column) =>
 												this.handleMouseDown(row, column)
 											}
