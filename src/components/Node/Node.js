@@ -4,43 +4,45 @@ import './Node.css';
 export default function Node(props) {
 	const {
 		isStart,
-    isFinish,
-    isCurrent,
-    isShortest,
-    isVisited,
+		isFinish,
+		isCurrent,
+		isShortest,
+		isVisited,
 		row,
 		column,
 		isWall,
 		onMouseDown,
 		onMouseEnter,
+		onMouseLeave,
 		onMouseUp,
 		onDragStart,
 		setRef,
-  } = props;
+	} = props;
 
 	const addedClass = isFinish
 		? 'node_finish'
 		: isStart
 		? 'node_start'
 		: isWall
-    ? 'node_wall'
-    : isCurrent
-    ? 'node_current'
-    : isVisited
-    ? 'node_visited'
-    : isShortest
-    ? 'node_shortestPath'
-    : 'node_default';
-    
+		? 'node_wall'
+		: isCurrent
+		? 'node_current'
+		: isVisited
+		? 'node_visited'
+		: isShortest
+		? 'node_shortestPath'
+		: 'node_default';
+
 	return (
 		<div
 			id={`node-${row}-${column}`}
 			ref={(refElem) => setRef(`node-${row}-${column}`, refElem)}
 			className={`node ${addedClass}`}
 			draggable={false}
-			onDragStart={() => onDragStart()}
+			onDragStart={() => onDragStart(row, column)}
 			onMouseDown={() => onMouseDown(row, column)}
+			onMouseUp={() => onMouseUp(row, column)}
 			onMouseEnter={() => onMouseEnter(row, column)}
-			onMouseUp={() => onMouseUp()}></div>
+			onMouseLeave={() => onMouseLeave(row, column)}></div>
 	);
 }

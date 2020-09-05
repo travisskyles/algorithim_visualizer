@@ -18,6 +18,8 @@ export default class Grid extends React.Component {
 			finishNodeRow: 12,
 			finishNodeColumn: 50,
 			mousePressed: false,
+			startSelected: false,
+			finishSelected: false,
 			hasRun: false,
 		};
 	}
@@ -39,7 +41,8 @@ export default class Grid extends React.Component {
 		});
 	}
 
-	componentDidUpdate(prevProps, prevState) {
+	componentDidUpdate(prevProps) {
+		// Check whether reset should activate
 		if (
 			this.props.resetBoard !== prevProps.resetBoard &&
 			this.props.resetBoard === true
@@ -48,6 +51,7 @@ export default class Grid extends React.Component {
 			this.setState({ grid });
 			this.setState({ hasRun: this.props.runVisualization });
 		}
+		// check whether visualize should run
 		if (
 			this.props.runVisualization !== prevProps.runVisualization &&
 			this.props.runVisualization === true
@@ -55,6 +59,7 @@ export default class Grid extends React.Component {
 			this.runAlgorithm(this.props.selectedAlgorithm);
 			this.setState({ hasRun: true });
 		}
+		// check whether clear walls should work
 		if (
 			this.props.clearWalls !== prevProps.clearWalls &&
 			this.props.clearWalls === true
@@ -62,6 +67,7 @@ export default class Grid extends React.Component {
 			this.clearWalls(this.state.grid);
 			this.props.clearWallsResetState();
 		}
+		// check whether clear weights should work
 		if (
 			this.props.clearWeights !== prevProps.clearWeights &&
 			this.props.clearWeights === true
@@ -149,17 +155,71 @@ export default class Grid extends React.Component {
 	};
 
 	handleMouseDown(row, column) {
-		const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
-		this.setState({ grid: newGrid, mousePressed: true });
+		if (this.state.grid[row][column].isStart) {
+			this.setState({ startSelected: true, mousePressed: true });
+		} else if (this.state.grid[row][column].isFinish) {
+			this.setState({ finishSelected: true, mousePressed: true });
+		} else {
+			const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
+			this.setState({ grid: newGrid, mousePressed: true });
+		}
 	}
 
 	handleMouseEnter(row, column) {
 		if (!this.state.mousePressed) return;
-		const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
-		this.setState({ grid: newGrid });
+		if (this.state.startSelected) {
+			const newGrid = this.updateNode(this.state.grid, row, column, [
+				'isStart',
+			]);
+			this.setState({
+				grid: newGrid,
+				startNodeRow: row,
+				startNodeColumn: column,
+			});
+		} else if (this.state.finishSelected) {
+			const newGrid = this.updateNode(this.state.grid, row, column, [
+				'isFinish',
+			]);
+			this.setState({
+				grid: newGrid,
+
+				finishNodeRow: row,
+				finishNodeColumn: column,
+			});
+		} else {
+			const newGrid = this.updateNode(this.state.grid, row, column, ['isWall']);
+			this.setState({ grid: newGrid });
+		}
 	}
 
-	handleMouseUp() {
+	handleMouseLeave(row, column) {
+		if (this.state.grid[row][column].isStart && this.state.startSelected) {
+			const newGrid = this.updateNode(this.state.grid, row, column, [
+				'isStart',
+			]);
+			this.setState({ grid: newGrid });
+		} else if (
+			this.state.grid[row][column].isFinish &&
+			this.state.finishSelected
+		) {
+			const newGrid = this.updateNode(this.state.grid, row, column, [
+				'isFinish',
+			]);
+			this.setState({ grid: newGrid });
+		}
+	}
+
+	handleMouseUp(row, column) {
+		if (this.state.startSelected) {
+			this.setState({
+				startSelected: false,
+			});
+		}
+		if (this.state.finishSelected) {
+			this.setState({
+				finishSelected: false,
+			});
+		}
 		this.setState({ mousePressed: false });
 	}
 
@@ -202,11 +262,16 @@ export default class Grid extends React.Component {
 											isShortest={isShortest}
 											isVisited={isVisited}
 											onDragStart={() => this.handleDragStart()}
-											onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-											onMouseEnter={(row, col) =>
-												this.handleMouseEnter(row, col)
+											onMouseDown={(row, column) =>
+												this.handleMouseDown(row, column)
 											}
-											onMouseUp={() => this.handleMouseUp()}></Node>
+											onMouseUp={(row, column) => this.handleMouseUp()}
+											onMouseEnter={(row, column) =>
+												this.handleMouseEnter(row, column)
+											}
+											onMouseLeave={(row, column) =>
+												this.handleMouseLeave(row, column)
+											}></Node>
 									);
 								})}
 							</div>
