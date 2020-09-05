@@ -11,7 +11,8 @@ export default class Visualizer extends React.Component {
 			selectedAlgorithm: '',
 			menuSelected: '',
 			runVisualization: false,
-			resetBoard: false,
+      resetBoard: false,
+      message: '',
 		};
   }
 
@@ -28,21 +29,21 @@ export default class Visualizer extends React.Component {
 				this.setState({ menuSelected: name });
 				if (name === 'run') {
 					if (!this.state.selectedAlgorithm) {
-						// TODO: do something else when no selected algorithm
-						console.log('no selection');
+            this.setState({message: 'No Selection, please choose an algorithm to run.'})
 						return;
 					} else {
             this.setState({ runVisualization: true });
+            this.setState({ message: `${this.state.selectedAlgorithm} selected. Click Visualize to run!` });
           }
 				}
 				if (name === 'resetBoard') {
           this.setState({ resetBoard: true });
           this.setState({ runVisualization: false });
+          this.setState({ message: 'Board Reset!' });
 				}
 				break;
 			case 'algorithm':
 				this.setState({ selectedAlgorithm: name });
-				console.log(name);
 				break;
 			default:
 				return;
@@ -58,6 +59,7 @@ export default class Visualizer extends React.Component {
         />
         <InfoContainer 
           selectedAlgorithm={this.state.selectedAlgorithm}
+          message={this.state.message}
         />
 				<Grid
 					runVisualization={this.state.runVisualization}
