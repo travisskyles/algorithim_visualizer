@@ -13,6 +13,10 @@ export default class Grid extends React.Component {
 			windowWidth: 0,
 			rows: 25,
 			columns: 60,
+			initialStartNodeRow: 12,
+			initialStartNodeColumn: 10,
+			initialFinishNodeRow: 12,
+			initialFinishNodeColumn: 50,
 			startNodeRow: 12,
 			startNodeColumn: 10,
 			finishNodeRow: 12,
@@ -42,14 +46,14 @@ export default class Grid extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		// Check whether reset should activate
+		// Check whether reset should activate and reset state
 		if (
 			this.props.resetBoard !== prevProps.resetBoard &&
 			this.props.resetBoard === true
 		) {
 			const grid = this.resetBoard(this.state.grid);
 			this.setState({ grid });
-			this.setState({ hasRun: this.props.runVisualization });
+			this.props.clearWallsResetState();
 		}
 		// check whether visualize should run
 		if (
@@ -57,9 +61,8 @@ export default class Grid extends React.Component {
 			this.props.runVisualization === true
 		) {
 			this.runAlgorithm(this.props.selectedAlgorithm);
-			this.setState({ hasRun: true });
 		}
-		// check whether wall should clear
+		// check whether wall should clear and reset state
 		if (
 			this.props.clearWalls !== prevProps.clearWalls &&
 			this.props.clearWalls === true
@@ -67,7 +70,7 @@ export default class Grid extends React.Component {
 			this.clearWalls(this.state.grid);
 			this.props.clearWallsResetState();
 		}
-		// check whether weights should clear
+		// check whether weights should clear and reset state
 		if (
 			this.props.clearWeights !== prevProps.clearWeights &&
 			this.props.clearWeights === true
@@ -79,23 +82,25 @@ export default class Grid extends React.Component {
 
 	resetBoard(grid) {
 		const newGrid = grid.slice();
-		for (let row = 0; row < grid.length; row++) {
-			for (let column = 0; column < grid[row].length; column++) {
+		for (let row = 0; row < newGrid.length; row++) {
+			for (let column = 0; column < newGrid[row].length; column++) {
 				if (
-					row === this.state.startNodeRow &&
-					column === this.state.startNodeColumn
+					row === this.state.initialStartNodeRow &&
+					column === this.state.initialStartNodeColumn
 				) {
 					this[`node-${row}-${column}`].className = 'node node_start';
 				} else if (
-					row === this.state.finishNodeRow &&
-					column === this.state.finishNodeColumn
+					row === this.state.initialFinishNodeRow &&
+					column === this.state.initialFinishNodeColumn
 				) {
 					this[`node-${row}-${column}`].className = 'node node_finish';
 				} else {
 					this[`node-${row}-${column}`].className = 'node node_default';
 				}
+				newGrid[row][column] = this.createNode(row, column);
 			}
 		}
+		console.log(newGrid);
 		return newGrid;
 	}
 
@@ -363,11 +368,11 @@ export default class Grid extends React.Component {
 			isShortest: false,
 			weight: 1,
 			isStart:
-				row === this.state.startNodeRow &&
-				column === this.state.startNodeColumn,
+				row === this.state.initialStartNodeRow &&
+				column === this.state.initialStartNodeColumn,
 			isFinish:
-				row === this.state.finishNodeRow &&
-				column === this.state.finishNodeColumn,
+				row === this.state.initialFinishNodeRow &&
+				column === this.state.initialFinishNodeColumn,
 			distance: Infinity,
 			previousNode: null,
 		};

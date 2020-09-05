@@ -76,6 +76,12 @@ export default class Visualizer extends React.Component {
 		}
 	};
 
+	runVisualizationResetState = () => {};
+
+	resetBoardResetState = () => {
+		this.setState({ resetBoard: false });
+	};
+
 	clearWallsResetState = () => {
 		this.setState({ clearWalls: false });
 	};
@@ -109,8 +115,10 @@ export default class Visualizer extends React.Component {
 				/>
 				<Grid
 					runVisualization={this.state.runVisualization}
+					runVisualizationResetState={this.runVisualizationResetState()}
 					selectedAlgorithm={this.state.selectedAlgorithm}
 					resetBoard={this.state.resetBoard}
+					resetBoardResetState={() => this.state.resetBoardResetState()}
 					clearWalls={this.state.clearWalls}
 					clearWallsResetState={() => this.clearWallsResetState()}
 					clearWeights={this.state.clearWeights}
