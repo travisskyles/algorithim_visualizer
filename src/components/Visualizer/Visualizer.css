@@ -1,8 +1,13 @@
 .body {
 	display: flex;
-	padding: 25px;
+
 	justify-content: center;
 	align-items: flex-end;
+	box-sizing: border-box;
+}
+
+.visualizer {
+	height: 100%;
 }
 
 *:focus {

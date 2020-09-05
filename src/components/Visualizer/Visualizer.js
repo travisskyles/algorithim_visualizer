@@ -97,6 +97,7 @@ export default class Visualizer extends React.Component {
 	render() {
 		return (
 			<div
+				className='visualizer'
 				tabIndex={0}
 				onKeyDown={(e) => this.handleKeyDown(e)}
 				onKeyUp={(e) => this.handleKeyUp(e)}>
