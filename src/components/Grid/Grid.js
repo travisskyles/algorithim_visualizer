@@ -229,7 +229,6 @@ export default class Grid extends React.Component {
 				weight: this.state.grid[row][column].weight + 1,
 			});
 			this.setState({ grid: newGrid });
-			console.log(this.state.grid[row][column].weight);
 		}
 	}
 
