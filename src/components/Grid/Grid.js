@@ -45,7 +45,6 @@ export default class Grid extends React.Component {
 			this.props.resetBoard === true
 		) {
 			const grid = this.resetBoard(this.state.grid);
-			console.log(grid);
 			this.setState({ grid });
 			this.setState({ hasRun: this.props.runVisualization });
 		}
@@ -55,6 +54,13 @@ export default class Grid extends React.Component {
 		) {
 			this.runAlgorithm(this.props.selectedAlgorithm);
 			this.setState({ hasRun: true });
+		}
+		if (
+			this.props.clearWalls !== prevProps.clearWalls &&
+			this.props.clearWalls === true
+		) {
+			this.clearWalls(this.state.grid);
+			this.props.clearWallResetState();
 		}
 	}
 
@@ -79,6 +85,15 @@ export default class Grid extends React.Component {
 		}
 		return newGrid;
 	}
+
+	clearWalls = (grid) => {
+		for (let row = 0; row < grid.length; row++) {
+			for (let column = 0; column < grid[row].length; column++) {
+				const newGrid = this.updateNode(grid, row, column, { isWall: false });
+				this.setState({ grid: newGrid });
+			}
+		}
+	};
 
 	setRef = (key, ref) => {
 		this[key] = ref;
