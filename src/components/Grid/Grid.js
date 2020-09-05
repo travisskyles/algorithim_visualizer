@@ -5,7 +5,7 @@ import Node from '../Node/Node';
 import './Grid.css';
 
 export default class Grid extends React.Component {
-	constructor(props, ref) {
+	constructor(props) {
 		super(props);
 		this.state = {
 			grid: [],
@@ -182,7 +182,6 @@ export default class Grid extends React.Component {
 			]);
 			this.setState({
 				grid: newGrid,
-
 				finishNodeRow: row,
 				finishNodeColumn: column,
 			});
@@ -223,6 +222,10 @@ export default class Grid extends React.Component {
 		this.setState({ mousePressed: false });
 	}
 
+	handleKeyPress(e) {
+		console.log(e);
+	}
+
 	render() {
 		const { grid } = this.state;
 		return (
@@ -259,13 +262,14 @@ export default class Grid extends React.Component {
 											onMouseDown={(row, column) =>
 												this.handleMouseDown(row, column)
 											}
-											onMouseUp={(row, column) => this.handleMouseUp()}
+											onMouseUp={() => this.handleMouseUp()}
 											onMouseEnter={(row, column) =>
 												this.handleMouseEnter(row, column)
 											}
 											onMouseLeave={(row, column) =>
 												this.handleMouseLeave(row, column)
-											}></Node>
+											}
+											onKeyPress={(e) => this.handleKeyPress(e)}></Node>
 									);
 								})}
 							</div>

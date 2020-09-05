@@ -13,6 +13,7 @@ export default class Visualizer extends React.Component {
 			runVisualization: false,
 			resetBoard: false,
 			message: '',
+			setWeight: false,
 		};
 	}
 
@@ -85,9 +86,20 @@ export default class Visualizer extends React.Component {
 		this.setState({ clearWeights: false });
 	};
 
+	handleKeyDown = (e) => {
+		if (e.key === 'w') this.setState({ setWeight: true });
+	};
+
+	handleKeyUp = (e) => {
+		if (e.key === 'w') this.setState({ setWeight: false });
+	};
+
 	render() {
 		return (
-			<>
+			<div
+				tabIndex={0}
+				onKeyDown={(e) => this.handleKeyDown(e)}
+				onKeyUp={(e) => handleKeyUp(e)}>
 				<Header
 					selectedAlgorithm={this.state.selectedAlgorithm}
 					handleMenuClick={(e) => this.handleMenuClick(e)}
@@ -104,8 +116,9 @@ export default class Visualizer extends React.Component {
 					clearWallsResetState={() => this.clearWallsResetState()}
 					clearWeights={this.state.clearWeights}
 					clearWeightsResetState={() => this.clearWeightsResetState()}
+					setWeight={this.state.setWeight}
 				/>
-			</>
+			</div>
 		);
 	}
 }

@@ -15,7 +15,7 @@ export default function Node(props) {
 		onMouseEnter,
 		onMouseLeave,
 		onMouseUp,
-		onDragStart,
+		onKeyPress,
 		setRef,
 	} = props;
 
@@ -42,6 +42,7 @@ export default function Node(props) {
 	return (
 		<div
 			id={`node-${row}-${column}`}
+			tabIndex={0}
 			ref={(refElem) => setRef(`node-${row}-${column}`, refElem)}
 			className={`node ${addedClass}`}
 			draggable={false}
