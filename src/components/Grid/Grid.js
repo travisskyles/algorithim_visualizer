@@ -75,13 +75,6 @@ export default class Grid extends React.Component {
 			this.clearWeights(this.state.grid);
 			this.props.clearWeightsResetState();
 		}
-		// check if weights should be added
-		// if (
-		//   this.props.setWeight !== prevProps.setWeight &&
-		//   this.props.setWeight === true
-		// ) {
-		//   this.setWeight(this.state.grid);
-		// }
 	}
 
 	resetBoard(grid) {
@@ -216,7 +209,7 @@ export default class Grid extends React.Component {
 		}
 	}
 
-	handleMouseUp(row, column) {
+	handleMouseUp() {
 		if (this.state.startSelected) {
 			this.setState({
 				startSelected: false,

@@ -14,7 +14,7 @@
 }
 
 .node_start {
-	background-color: blue;
+	background-color: green;
 }
 
 .node_finish {
@@ -54,11 +54,12 @@
 	}
 }
 
-.node_wall {
+/* .node_wall {
 	background-color: black;
-}
+} */
 
 .node_wall {
+	border: 1px solid black;
 	animation-name: isWall;
 	animation-duration: 0.3s;
 	animation-timing-function: ease-out;

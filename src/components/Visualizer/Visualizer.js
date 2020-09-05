@@ -9,10 +9,9 @@ export default class Visualizer extends React.Component {
 		super(props);
 		this.state = {
 			selectedAlgorithm: '',
-			menuSelected: '',
+			message: '',
 			runVisualization: false,
 			resetBoard: false,
-			message: '',
 			setWeight: false,
 		};
 	}
@@ -36,7 +35,6 @@ export default class Visualizer extends React.Component {
 		let [type, name] = e.target.getAttribute('value').split('-');
 		switch (type) {
 			case 'menu':
-				this.setState({ menuSelected: name });
 				switch (name) {
 					case 'run':
 						if (!this.state.selectedAlgorithm) {
