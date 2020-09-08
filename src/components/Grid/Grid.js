@@ -46,17 +46,19 @@ export default class Grid extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		console.log('props', this.props);
-		console.log('prevProps', prevProps);
 		// Check whether reset should activate and reset state
 		if (
 			this.props.resetBoard !== prevProps.resetBoard &&
 			this.props.resetBoard === true
 		) {
 			const grid = this.resetBoard(this.state.grid);
-			console.log('reset grid');
-			this.setState({ grid });
-			console.log(this.state.grid);
+			this.setState({
+				grid: grid,
+				startNodeRow: this.state.initialStartNodeRow,
+				startNodeColumn: this.state.initialStartNodeColumn,
+				finishNodeRow: this.state.initialFinishNodeRow,
+				finishNodeColumn: this.state.finishNodeColumn,
+			});
 			this.props.resetBoardResetState();
 		}
 		// check whether visualize should run
@@ -85,7 +87,6 @@ export default class Grid extends React.Component {
 	}
 
 	resetBoard() {
-		// const newGrid = grid.slice();
 		const { rows, columns } = this.state;
 		const grid = [];
 		for (let row = 0; row < rows; row++) {
@@ -104,12 +105,11 @@ export default class Grid extends React.Component {
 				} else {
 					this[`node-${row}-${column}`].className = 'node node_default';
 				}
-				// newGrid[row][column] = this.createNode(row, column);
-				currentRow.push(this.createNode(row, column));
+				const newNode = this.createNode(row, column);
+				currentRow.push(newNode);
 			}
 			grid.push(currentRow);
 		}
-		// console.log(newGrid);
 		return grid;
 	}
 
@@ -311,6 +311,7 @@ export default class Grid extends React.Component {
 			finishNodeRow,
 			finishNodeColumn,
 		} = this.state;
+
 		const startNode = grid[startNodeRow][startNodeColumn];
 		const finishNode = grid[finishNodeRow][finishNodeColumn];
 		let visitedInOrder;
