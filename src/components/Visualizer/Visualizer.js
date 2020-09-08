@@ -13,6 +13,8 @@ export default class Visualizer extends React.Component {
 			runVisualization: false,
 			resetBoard: false,
 			setWeight: false,
+			clearWeights: false,
+			clearWalls: false,
 		};
 	}
 
@@ -118,7 +120,7 @@ export default class Visualizer extends React.Component {
 					runVisualizationResetState={this.runVisualizationResetState()}
 					selectedAlgorithm={this.state.selectedAlgorithm}
 					resetBoard={this.state.resetBoard}
-					resetBoardResetState={() => this.state.resetBoardResetState()}
+					resetBoardResetState={() => this.resetBoardResetState()}
 					clearWalls={this.state.clearWalls}
 					clearWallsResetState={() => this.clearWallsResetState()}
 					clearWeights={this.state.clearWeights}
