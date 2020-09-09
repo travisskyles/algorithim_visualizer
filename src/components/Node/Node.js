@@ -1,4 +1,6 @@
 import React from 'react';
+import { FaStarOfLife } from 'react-icons/fa';
+import { ImCross } from 'react-icons/im';
 import './Node.css';
 
 export default function Node(props) {
@@ -55,7 +57,8 @@ export default function Node(props) {
 			onMouseUp={() => onMouseUp(row, column)}
 			onMouseEnter={() => onMouseEnter(row, column)}
 			onMouseLeave={() => onMouseLeave(row, column)}>
-			{displayWeight}
+			{isStart ? <FaStarOfLife /> : isFinish ? <ImCross /> : displayWeight}
+			{/* {displayWeight} */}
 		</div>
 	);
 }

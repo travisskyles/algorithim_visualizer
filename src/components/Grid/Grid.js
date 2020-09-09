@@ -1,4 +1,5 @@
 import React from 'react';
+import { IconContext } from 'react-icons';
 import { astar } from '../../algorithims/astar';
 import { dijkstras } from '../../algorithims/dijkstras';
 import Node from '../Node/Node';
@@ -268,57 +269,59 @@ export default class Grid extends React.Component {
 	render() {
 		const { grid } = this.state;
 		return (
-			<div className='grid_wrapper'>
-				<div className='grid'>
-					{grid.map((row, idxRow) => {
-						return (
-							<div className='row' key={idxRow}>
-								{row.map((node, idxNode) => {
-									const {
-										isStart,
-										isFinish,
-										isCurrent,
-										isShortest,
-										isVisited,
-										row,
-										column,
-										isWall,
-										weight,
-									} = node;
-									return (
-										<Node
-											key={idxNode}
-											setRef={this.setRef}
-											row={row}
-											weight={weight}
-											column={column}
-											isWall={isWall}
-											isStart={isStart}
-											isFinish={isFinish}
-											isCurrent={isCurrent}
-											isShortest={isShortest}
-											isVisited={isVisited}
-											onClick={(row, column) =>
-												this.handleMouseClick(row, column)
-											}
-											onMouseDown={(row, column) =>
-												this.handleMouseDown(row, column)
-											}
-											onMouseUp={() => this.handleMouseUp()}
-											onMouseEnter={(row, column) =>
-												this.handleMouseEnter(row, column)
-											}
-											onMouseLeave={(row, column) =>
-												this.handleMouseLeave(row, column)
-											}
-											onKeyPress={(e) => this.handleKeyPress(e)}></Node>
-									);
-								})}
-							</div>
-						);
-					})}
+			<IconContext.Provider value={{ size: '20px', className: 'icon' }}>
+				<div className='grid_wrapper'>
+					<div className='grid'>
+						{grid.map((row, idxRow) => {
+							return (
+								<div className='row' key={idxRow}>
+									{row.map((node, idxNode) => {
+										const {
+											isStart,
+											isFinish,
+											isCurrent,
+											isShortest,
+											isVisited,
+											row,
+											column,
+											isWall,
+											weight,
+										} = node;
+										return (
+											<Node
+												key={idxNode}
+												setRef={this.setRef}
+												row={row}
+												weight={weight}
+												column={column}
+												isWall={isWall}
+												isStart={isStart}
+												isFinish={isFinish}
+												isCurrent={isCurrent}
+												isShortest={isShortest}
+												isVisited={isVisited}
+												onClick={(row, column) =>
+													this.handleMouseClick(row, column)
+												}
+												onMouseDown={(row, column) =>
+													this.handleMouseDown(row, column)
+												}
+												onMouseUp={() => this.handleMouseUp()}
+												onMouseEnter={(row, column) =>
+													this.handleMouseEnter(row, column)
+												}
+												onMouseLeave={(row, column) =>
+													this.handleMouseLeave(row, column)
+												}
+												onKeyPress={(e) => this.handleKeyPress(e)}></Node>
+										);
+									})}
+								</div>
+							);
+						})}
+					</div>
 				</div>
-			</div>
+			</IconContext.Provider>
 		);
 	}
 
