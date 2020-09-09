@@ -58,6 +58,7 @@ export default class Grid extends React.Component {
 				startNodeColumn: this.state.initialStartNodeColumn,
 				finishNodeRow: this.state.initialFinishNodeRow,
 				finishNodeColumn: this.state.finishNodeColumn,
+				hasRun: false,
 			});
 			this.props.resetBoardResetState();
 		}
@@ -67,6 +68,8 @@ export default class Grid extends React.Component {
 			this.props.runVisualization === true
 		) {
 			this.runAlgorithm(this.props.selectedAlgorithm);
+			this.setState({ hasRun: true });
+			this.props.runVisualizationResetState();
 		}
 		// check whether wall should clear and reset state
 		if (
@@ -127,6 +130,22 @@ export default class Grid extends React.Component {
 			for (let column = 0; column < grid[row].length; column++) {
 				const newGrid = this.updateNode(grid, row, column, { weight: 1 });
 				this.setState({ grid: newGrid });
+			}
+		}
+	};
+
+	clearVisitedNodes = (grid) => {
+		for (let row = 0; row < grid.length; row++) {
+			for (let column = 0; column < grid[row].length; column++) {
+				if (grid[row][column].isStart === true) {
+					this[`node-${row}-${column}`].className = 'node node_start';
+				} else if (grid[row][column].isFinish === true) {
+					this[`node-${row}-${column}`].className = 'node node_finish';
+				} else if (grid[row][column].isWall || grid[row][column].isWeight) {
+					continue;
+				} else {
+					this[`node-${row}-${column}`].className = 'node node_default';
+				}
 			}
 		}
 	};
@@ -328,6 +347,9 @@ export default class Grid extends React.Component {
 				break;
 			default:
 				return;
+		}
+		if (this.state.hasRun) {
+			this.clearVisitedNodes(grid);
 		}
 		this.animate(visitedInOrder, shortestInOrder);
 	}

@@ -8,6 +8,7 @@ export default class Visualizer extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			buttonClicked: null,
 			selectedAlgorithm: '',
 			message: '',
 			runVisualization: false,
@@ -39,13 +40,18 @@ export default class Visualizer extends React.Component {
 			case 'menu':
 				switch (name) {
 					case 'run':
+						this.setState({ buttonClicked: 'run' });
 						if (!this.state.selectedAlgorithm) {
 							this.setState({
 								message: 'No Selection, please choose an algorithm to run.',
 							});
 							return;
 						} else {
+							// if (this.state.runVisualization === true) {
+							// 	this.setState({ runVisualization: false });
+							// } else {
 							this.setState({ runVisualization: true });
+							// }
 						}
 						break;
 					case 'resetBoard':
@@ -78,7 +84,13 @@ export default class Visualizer extends React.Component {
 		}
 	};
 
-	runVisualizationResetState = () => {};
+	buttonClickedResetState = () => {
+		this.setState({ buttonClicked: null });
+	};
+
+	runVisualizationResetState = () => {
+		this.setState({ runVisualization: false });
+	};
 
 	resetBoardResetState = () => {
 		this.setState({ resetBoard: false });
@@ -116,8 +128,9 @@ export default class Visualizer extends React.Component {
 					message={this.state.message}
 				/>
 				<Grid
+					buttonClicked={this.state.buttonClicked}
 					runVisualization={this.state.runVisualization}
-					runVisualizationResetState={this.runVisualizationResetState()}
+					runVisualizationResetState={() => this.runVisualizationResetState()}
 					selectedAlgorithm={this.state.selectedAlgorithm}
 					resetBoard={this.state.resetBoard}
 					resetBoardResetState={() => this.resetBoardResetState()}
