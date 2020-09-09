@@ -6,7 +6,7 @@ import './InfoContainer.css';
 
 export default function InfoContainer(props) {
 	return (
-		<IconContext.Provider value={{ size: '20px', className: 'icon' }}>
+		<IconContext.Provider value={{ size: '20px', className: 'icon-key' }}>
 			<div className='info-container'>
 				<div className='message_box'>
 					<p id='message-text'>{props.message ? props.message : ''}</p>
