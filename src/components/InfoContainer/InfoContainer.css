@@ -7,13 +7,40 @@
 }
 
 .key {
-	width: 20%;
-	height: 150px;
-	background-color: #b47809;
+	width: 30%;
+	height: 125px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+
+.key-item-wrapper {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.icon {
+	margin-left: 10px;
 }
 
 .message_box {
 	display: flex;
 	flex-direction: column;
 	margin-left: 15%;
+}
+
+.key-text {
+	font-weight: bold;
+}
+
+#wall-key {
+	height: 25px;
+	width: 25px;
+	background-color: black;
+	margin-left: 10px;
+}
+
+#message-text {
+	font-weight: bold;
 }
