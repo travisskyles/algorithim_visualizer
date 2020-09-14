@@ -2,7 +2,7 @@
 
 An app to visually show a variety of pathfinding and sorting algorithms.
 
-View at [https://algorithim-visualizations.herokuapp.com/](https://algorithim-visualizations.herokuapp.com/)
+View at [skyles-algo-visualizer.netlify.app](skyles-algo-visualizer.netlify.app)
 
 ## Current Algorithms
 
