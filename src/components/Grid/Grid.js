@@ -2,6 +2,7 @@ import React from 'react';
 import { IconContext } from 'react-icons';
 import { astar } from '../../algorithims/astar';
 import { dijkstras } from '../../algorithims/dijkstras';
+import { binaryTreeMaze } from '../../algorithims/maze_gen/binaryTree';
 import Node from '../Node/Node';
 import './Grid.css';
 
@@ -332,6 +333,8 @@ export default class Grid extends React.Component {
 			startNodeColumn,
 			finishNodeRow,
 			finishNodeColumn,
+			rows,
+			columns,
 		} = this.state;
 
 		const startNode = grid[startNodeRow][startNodeColumn];
@@ -347,6 +350,26 @@ export default class Grid extends React.Component {
 			case 'astar':
 				visitedInOrder = astar.run(grid, startNode, finishNode);
 				shortestInOrder = astar.getShortestPath(finishNode);
+				this.animate(visitedInOrder, shortestInOrder);
+				break;
+			case 'btree':
+				let newGrid = this.updateNode(grid, startNodeRow, startNodeColumn, [
+					'isStart',
+				]);
+				newGrid = this.updateNode(grid, finishNodeRow, finishNodeColumn, [
+					'isFinish',
+				]);
+				newGrid = this.updateNode(grid, 0, 0, ['isStart']);
+				newGrid = this.updateNode(grid, rows - 1, columns - 1, ['isFinish']);
+				this.setState({
+					grid: newGrid,
+					startNodeRow: 0,
+					startNodeColumn: 0,
+					finishNodeRow: rows - 1,
+					finishNodeColumn: columns - 1,
+				});
+				const btree = new binaryTreeMaze();
+				// btree.generate(grid);
 				break;
 			default:
 				return;
@@ -354,7 +377,7 @@ export default class Grid extends React.Component {
 		if (this.state.hasRun) {
 			this.clearVisitedNodes(grid);
 		}
-		this.animate(visitedInOrder, shortestInOrder);
+		// this.animate(visitedInOrder, shortestInOrder);
 	}
 
 	animate(visitedNodesInOrder, nodesInShortestOrder) {

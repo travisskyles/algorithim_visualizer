@@ -50,15 +50,31 @@ binaryTreeMaze.prototype.generate = function (grid) {
 	// while(current !== grid[endX][endY]){
 	//   current = current
 	// }
+	const newGrid = grid;
 
 	let neighborH;
 	let neighborV;
 
-	for (let row = 0; row > grid.length - 1; row++) {
-		for (let col = 0; col > grid[row].length - 1; col++) {
-			neighborH = grid[col - 1][row];
-			neighborV = grid[col][row - 1];
+	// console.log(1, grid.length);
+	for (let row = 0; row < newGrid.length; row += 2) {
+		// console.log(newGrid.length);
+		for (let col = 0; col < newGrid[row].length; col++) {
+			// console.log(newGrid[row].length);
+			if (col > 0) {
+				neighborH = newGrid[row][col - 1];
+			} else {
+				neighborH = undefined;
+			}
 
+			if (row > 0) {
+				neighborV = newGrid[row - 1][col];
+			} else {
+				neighborV = undefined;
+			}
+
+			// if (neighborH.isWall === true) {
+			// 	n;
+			// }
 			// if(!neighborH && !neighborV){
 			//   continue;
 			// }
@@ -66,17 +82,22 @@ binaryTreeMaze.prototype.generate = function (grid) {
 
 			// }
 			if (neighborH && neighborV) {
+				console.log(row, col, neighborH);
 				let int = Math.round(Math.random());
 				if (int === 1) {
 					neighborH.isWall = true;
-				} else {
+				}
+				if (int === 0) {
 					neighborV.isWall = true;
 				}
 			}
 		}
 	}
+	console.log(grid);
+	console.log(newGrid);
 };
 
-// binaryTreeMaze.prototype.getNeighbors(x, y){
-//   const neighbors = {};
-// }
+binaryTreeMaze.prototype.choosePath = function (neighborA, neighborB) {
+	// if(neighbor)
+	let int = Math.round(Math.random());
+};
