@@ -18,25 +18,16 @@ binaryTreeMaze.prototype.generate = function (grid) {
 	// set all grid squares to walls
 	for (let row = 0; row < newGrid.length; row++) {
 		for (let col = 0; col < newGrid[row].length; col++) {
-			newGrid[row][col].isWall = true;
 			if (row === 0 || col === 0) {
-				newGrid[row][col].isWall = false;
+				path.push(newGrid[row][col]);
 			}
 		}
 	}
 
-	// ensure final square
-	// newGrid[newGrid.length - 1][
-	// 	newGrid[newGrid.length - 1].length - 1
-	// ].isWall = false;
-	// console.log(1, grid.length);
 	for (let row = 0; row <= newGrid.length; row += 2) {
-		// console.log(newGrid.length);
 		for (let col = 0; col <= newGrid[row].length; col += 2) {
-			// console.log(newGrid[row].length);
 			current = newGrid[row][col];
 
-			// current.isWall = false;
 			path.push(current);
 
 			if (col > 0) {
@@ -51,19 +42,21 @@ binaryTreeMaze.prototype.generate = function (grid) {
 			}
 
 			if (neighborH && neighborV) {
-				// console.log(row, col, neighborH);
 				let int = Math.round(Math.random());
 				if (int === 1) {
 					path.push(neighborH);
-					// neighborH.isWall = false;
 				}
 				if (int === 0) {
 					path.push(neighborV);
-					// neighborV.isWall = false;
 				}
 			}
-			// console.log(current);
 		}
 	}
-	return path;
+	return [...new Set(path)];
+};
+
+binaryTreeMaze.prototype.getWalls = function (grid, pathArray) {
+	const flat = grid.flat();
+	const wallsArray = flat.filter((el) => !pathArray.includes(el));
+	return wallsArray;
 };
