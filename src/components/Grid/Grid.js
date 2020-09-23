@@ -2,6 +2,7 @@ import React from 'react';
 import { IconContext } from 'react-icons';
 import { astar } from '../../algorithims/astar';
 import { dijkstras } from '../../algorithims/dijkstras';
+import { binaryTreeMaze } from '../../algorithims/maze_gen/binaryTree';
 import Node from '../Node/Node';
 import './Grid.css';
 
@@ -13,7 +14,7 @@ export default class Grid extends React.Component {
 			windowHeight: 0,
 			windowWidth: 0,
 			rows: 25,
-			columns: 60,
+			columns: 59,
 			initialStartNodeRow: 12,
 			initialStartNodeColumn: 10,
 			initialFinishNodeRow: 12,
@@ -165,13 +166,13 @@ export default class Grid extends React.Component {
 	updateColumns = () => {
 		let x = this.state.windowWidth;
 		if (x > 0 && x < 600) {
-			this.setState({ columns: 20 });
+			this.setState({ columns: 21 });
 		}
 		if (x > 600 && x < 1200) {
-			this.setState({ columns: 40 });
+			this.setState({ columns: 41 });
 		}
 		if (x > 1200) {
-			this.setState({ columns: 60 });
+			this.setState({ columns: 61 });
 		}
 	};
 
@@ -343,10 +344,18 @@ export default class Grid extends React.Component {
 			case 'dijkstras':
 				visitedInOrder = dijkstras.run(grid, startNode, finishNode);
 				shortestInOrder = dijkstras.getShortestPath(finishNode);
+				this.animate(visitedInOrder, shortestInOrder);
 				break;
 			case 'astar':
 				visitedInOrder = astar.run(grid, startNode, finishNode);
 				shortestInOrder = astar.getShortestPath(finishNode);
+				this.animate(visitedInOrder, shortestInOrder);
+				break;
+			case 'btree':
+				const btree = new binaryTreeMaze();
+				let path = btree.generate(grid);
+				// console.log(path);
+				this.animateMaze(path);
 				break;
 			default:
 				return;
@@ -354,7 +363,23 @@ export default class Grid extends React.Component {
 		if (this.state.hasRun) {
 			this.clearVisitedNodes(grid);
 		}
-		this.animate(visitedInOrder, shortestInOrder);
+	}
+
+	animateMaze(pathArray) {
+		for (let i = 0; i < pathArray.length; i++) {
+			setTimeout(() => {
+				const node = pathArray[i];
+				const newGrid = this.updateNode(
+					this.state.grid,
+					node.row,
+					node.column,
+					{
+						isWall: false,
+					}
+				);
+				this.setState({ grid: newGrid });
+			}, 20);
+		}
 	}
 
 	animate(visitedNodesInOrder, nodesInShortestOrder) {
@@ -415,6 +440,7 @@ export default class Grid extends React.Component {
 
 	createGrid() {
 		const { rows, columns } = this.state;
+		console.log(columns);
 		const grid = [];
 		for (let row = 0; row < rows; row++) {
 			const currentRow = [];

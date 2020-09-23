@@ -18,12 +18,16 @@
 	font-weight: bold;
 }
 
+.node_default {
+	background-color: white;
+}
+
 .node_start {
-	/* background-color: green; */
+	background-color: white;
 }
 
 .node_finish {
-	/* background-color: red; */
+	background-color: white;
 }
 
 .node_visited {

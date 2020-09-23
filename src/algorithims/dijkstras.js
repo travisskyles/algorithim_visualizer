@@ -15,11 +15,11 @@ export const dijkstras = {
 		// ensure all parameter exist and start and finish are not the same
 		if (!grid || !startNode || !finishNode || startNode === finishNode) {
 			return false;
-    }
-    // create visited an unvisited lists
+		}
+		// create visited an unvisited lists
 		const visited = [];
 		const unvisited = [];
-    // set startNode distance to 0 and put into unvisited list
+		// set startNode distance to 0 and put into unvisited list
 		startNode.distance = 0;
 		unvisited.push(startNode);
 
@@ -28,7 +28,6 @@ export const dijkstras = {
 			// set the current node as the first from the array
 			this._sortNodesByDistance(unvisited);
 			let current = unvisited.shift();
-
 			if (current === finishNode) return visited;
 			if (current.isWall) continue;
 
@@ -112,15 +111,9 @@ export const dijkstras = {
 		while (current.previousNode) {
 			result.push(current);
 			current = current.previousNode;
-    }
-    // makes sure to include starting node
-    result.push(current);
+		}
+		// makes sure to include starting node
+		result.push(current);
 		return result.reverse();
 	},
 };
-
-
-
-
-
-

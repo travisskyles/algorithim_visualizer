@@ -3,7 +3,9 @@ import './Header.css';
 
 export default function Header(props) {
 	const algorithmButtonRef = useRef();
-	const dropdownRef = useRef();
+	const mazeButtonRef = useRef();
+	const dropdownSearchRef = useRef();
+	const dropdownMazeRef = useRef();
 
 	const { selectedAlgorithm } = props;
 	const goButtonText = (selectedAlgorithm) => {
@@ -15,6 +17,9 @@ export default function Header(props) {
 			case 'dijkstras':
 				text = 'Visualize Dijkstras!';
 				break;
+			case 'btree':
+				text = 'Visualize Binary Tree!';
+				break;
 			default:
 				text = 'Visualize!';
 				break;
@@ -22,24 +27,24 @@ export default function Header(props) {
 		return text;
 	};
 
-	const handleMenuEnter = () => {
-		addRemoveClass(algorithmButtonRef, 'add', 'menu-hover-hold');
-		addRemoveClass(dropdownRef, 'remove', 'hidden');
+	const handleMenuEnter = (menuButtonRef, dropDownRef) => {
+		addRemoveClass(menuButtonRef, 'add', 'menu-hover-hold');
+		addRemoveClass(dropDownRef, 'remove', 'hidden');
 	};
 
-	const handleMenuLeave = () => {
-		addRemoveClass(algorithmButtonRef, 'remove', 'menu-hover-hold');
-		addRemoveClass(dropdownRef, 'add', 'hidden');
+	const handleMenuLeave = (menuButtonRef, dropDownRef) => {
+		addRemoveClass(menuButtonRef, 'remove', 'menu-hover-hold');
+		addRemoveClass(dropDownRef, 'add', 'hidden');
 	};
 
-	const handleDropDownEnter = () => {
-		addRemoveClass(algorithmButtonRef, 'add', 'menu-hover-hold');
-		addRemoveClass(dropdownRef, 'remove', 'hidden');
+	const handleDropDownEnter = (menuButtonRef, dropDownRef) => {
+		addRemoveClass(menuButtonRef, 'add', 'menu-hover-hold');
+		addRemoveClass(dropDownRef, 'remove', 'hidden');
 	};
 
-	const handleDropDownLeave = () => {
-		addRemoveClass(algorithmButtonRef, 'remove', 'menu-hover-hold');
-		addRemoveClass(dropdownRef, 'add', 'hidden');
+	const handleDropDownLeave = (menuButtonRef, dropDownRef) => {
+		addRemoveClass(menuButtonRef, 'remove', 'menu-hover-hold');
+		addRemoveClass(dropDownRef, 'add', 'hidden');
 	};
 
 	const addRemoveClass = (ref, addOrRemove, className) => {
@@ -89,17 +94,55 @@ export default function Header(props) {
 			<ul>
 				<li
 					className='menu-button'
-					ref={algorithmButtonRef}
-					onMouseEnter={() => handleMenuEnter()}
-					onMouseLeave={() => handleMenuLeave()}>
-					Algorithms
+					ref={mazeButtonRef}
+					onMouseEnter={() => handleMenuEnter(mazeButtonRef, dropdownMazeRef)}
+					onMouseLeave={() => handleMenuLeave(mazeButtonRef, dropdownMazeRef)}>
+					Maze Algorithms
 				</li>
 				<div
-					id='dropdown'
-					className='hidden'
-					ref={dropdownRef}
-					onMouseEnter={() => handleDropDownEnter()}
-					onMouseLeave={() => handleDropDownLeave()}>
+					id='dropdown-maze'
+					className='dropdown hidden'
+					ref={dropdownMazeRef}
+					onMouseEnter={() =>
+						handleDropDownEnter(mazeButtonRef, dropdownMazeRef)
+					}
+					onMouseLeave={() =>
+						handleDropDownLeave(mazeButtonRef, dropdownMazeRef)
+					}>
+					<ul>
+						<li
+							value='algorithm-btree'
+							onClick={(e) => props.handleMenuClick(e)}>
+							Binary Tree
+						</li>
+						{/* <li
+							value='algorithm-astar'
+							onClick={(e) => props.handleMenuClick(e)}>
+							A* Search
+						</li> */}
+					</ul>
+				</div>
+				<li
+					className='menu-button'
+					ref={algorithmButtonRef}
+					onMouseEnter={() =>
+						handleMenuEnter(algorithmButtonRef, dropdownSearchRef)
+					}
+					onMouseLeave={() =>
+						handleMenuLeave(algorithmButtonRef, dropdownSearchRef)
+					}>
+					Search Algorithms
+				</li>
+				<div
+					id='dropdown-search'
+					className='dropdown hidden'
+					ref={dropdownSearchRef}
+					onMouseEnter={() =>
+						handleDropDownEnter(algorithmButtonRef, dropdownSearchRef)
+					}
+					onMouseLeave={() =>
+						handleDropDownLeave(algorithmButtonRef, dropdownSearchRef)
+					}>
 					<ul>
 						<li
 							value='algorithm-dijkstras'

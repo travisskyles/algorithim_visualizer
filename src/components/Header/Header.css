@@ -64,7 +64,7 @@
 	background-color: #b47809;
 }
 
-#dropdown {
+.dropdown {
 	background-color: rgb(9, 80, 180);
 	position: absolute;
 	width: 126px;
@@ -72,20 +72,24 @@
 	/* left: 1px; */
 }
 
-#dropdown > ul {
+.dropdown > ul {
 	padding: 0;
 	list-style-type: none;
 }
 
-#dropdown li {
+.dropdown li {
 	padding: 10px;
 	margin: 0;
 }
 
-#dropdown li:hover {
+.dropdown li:hover {
 	background-color: #b47809;
 	box-sizing: border-box;
 	/* border: 2px rgb(7, 70, 170) solid; */
+}
+
+#dropdown-search {
+	left: 210px;
 }
 
 .hidden {

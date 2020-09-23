@@ -48,7 +48,6 @@ export const astar = {
 			// take the lowest value and set to current
 			this._sortNodesByDistance(open);
 			let current = open.shift();
-
 			if (current === finishNode) return closed;
 			if (current.isWall) continue;
 
@@ -106,9 +105,9 @@ export const astar = {
 		while (current.previousNode) {
 			result.push(current);
 			current = current.previousNode;
-    }
-    // makes sure to include starting node
-    result.push(current);
+		}
+		// makes sure to include starting node
+		result.push(current);
 		return result.reverse();
 	},
 	/**
