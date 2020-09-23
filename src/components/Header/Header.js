@@ -17,6 +17,9 @@ export default function Header(props) {
 			case 'dijkstras':
 				text = 'Visualize Dijkstras!';
 				break;
+			case 'btree':
+				text = 'Visualize Binary Tree!';
+				break;
 			default:
 				text = 'Visualize!';
 				break;
@@ -108,7 +111,7 @@ export default function Header(props) {
 					}>
 					<ul>
 						<li
-							value='algorithm-dijkstras'
+							value='algorithm-btree'
 							onClick={(e) => props.handleMenuClick(e)}>
 							Binary Tree
 						</li>

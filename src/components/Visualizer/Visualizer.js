@@ -28,6 +28,9 @@ export default class Visualizer extends React.Component {
 			case 'dijkstras':
 				text = 'Dijkstras';
 				break;
+			case 'btree':
+				text = 'Binary Tree';
+				break;
 			default:
 				break;
 		}
