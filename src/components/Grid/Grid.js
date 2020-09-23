@@ -352,6 +352,7 @@ export default class Grid extends React.Component {
 				this.animate(visitedInOrder, shortestInOrder);
 				break;
 			case 'btree':
+				this.clearWalls(grid);
 				const btree = new binaryTreeMaze();
 				let path = btree.generate(grid);
 				let walls = btree.getWalls(grid, path);
@@ -378,7 +379,7 @@ export default class Grid extends React.Component {
 					}
 				);
 				this.setState({ grid: newGrid });
-			}, 20 * i);
+			}, 10 * i);
 		}
 	}
 
