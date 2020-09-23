@@ -14,7 +14,7 @@ export default class Grid extends React.Component {
 			windowHeight: 0,
 			windowWidth: 0,
 			rows: 25,
-			columns: 59,
+			columns: 61,
 			initialStartNodeRow: 12,
 			initialStartNodeColumn: 10,
 			initialFinishNodeRow: 12,
@@ -354,8 +354,8 @@ export default class Grid extends React.Component {
 			case 'btree':
 				const btree = new binaryTreeMaze();
 				let path = btree.generate(grid);
-				// console.log(path);
-				this.animateMaze(path);
+				let walls = btree.getWalls(grid, path);
+				this.animateMaze(walls);
 				break;
 			default:
 				return;
@@ -374,11 +374,11 @@ export default class Grid extends React.Component {
 					node.row,
 					node.column,
 					{
-						isWall: false,
+						isWall: true,
 					}
 				);
 				this.setState({ grid: newGrid });
-			}, 50 * i);
+			}, 20 * i);
 		}
 	}
 
