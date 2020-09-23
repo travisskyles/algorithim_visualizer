@@ -378,7 +378,7 @@ export default class Grid extends React.Component {
 					}
 				);
 				this.setState({ grid: newGrid });
-			}, 20);
+			}, 200);
 		}
 	}
 
