@@ -353,13 +353,32 @@ export default class Grid extends React.Component {
 				break;
 			case 'btree':
 				const btree = new binaryTreeMaze();
-				btree.generate(grid);
+				let path = btree.generate(grid);
+				// console.log(path);
+				this.animateMaze(path);
 				break;
 			default:
 				return;
 		}
 		if (this.state.hasRun) {
 			this.clearVisitedNodes(grid);
+		}
+	}
+
+	animateMaze(pathArray) {
+		for (let i = 0; i < pathArray.length; i++) {
+			setTimeout(() => {
+				const node = pathArray[i];
+				const newGrid = this.updateNode(
+					this.state.grid,
+					node.row,
+					node.column,
+					{
+						isWall: false,
+					}
+				);
+				this.setState({ grid: newGrid });
+			}, 20);
 		}
 	}
 
