@@ -17,24 +17,15 @@ export default class Visualizer extends React.Component {
 			clearWeights: false,
 			clearWalls: false,
 		};
+		this.algoTextStore = {
+			astar: 'A* Search',
+			dijkstras: 'Dijkstras',
+			btree: 'Binary Tree',
+		};
 	}
 
 	getAlgorithmText = (selectedAlgorithm) => {
-		let text;
-		switch (selectedAlgorithm) {
-			case 'astar':
-				text = 'A* Search';
-				break;
-			case 'dijkstras':
-				text = 'Dijkstras';
-				break;
-			case 'btree':
-				text = 'Binary Tree';
-				break;
-			default:
-				break;
-		}
-		return text;
+		return this.algoTextStore[selectedAlgorithm];
 	};
 
 	handleMenuClick = (e) => {
@@ -50,11 +41,7 @@ export default class Visualizer extends React.Component {
 							});
 							return;
 						} else {
-							// if (this.state.runVisualization === true) {
-							// 	this.setState({ runVisualization: false });
-							// } else {
 							this.setState({ runVisualization: true });
-							// }
 						}
 						break;
 					case 'resetBoard':
