@@ -12,12 +12,13 @@ export const breadthFirst = {
 		unvisited.push(startNode);
 
 		while (!!unvisited.length) {
-			// sort the unvisited nodes from smallest to largest
 			// set the current node as the first from the array
-			this._sortNodesByDistance(unvisited);
 			let current = unvisited.shift();
 
-			if (current === finishNode) return visited;
+			if (current === finishNode) {
+				visited.push(current);
+				return visited;
+			}
 			if (current.isWall) continue;
 
 			// set current as visited
@@ -57,17 +58,6 @@ export const breadthFirst = {
 		if (column < grid[0].length - 1) neighbors.push(grid[row][column + 1]);
 
 		return neighbors;
-	},
-
-	/**
-	 * sorts a list of nodes by their f(x) values
-	 * @function _sortNodesByDistance
-	 * @private
-	 * @param {array} arr a list of nodes
-	 * @returns {array} sorted array
-	 */
-	_sortNodesByDistance: function (arr) {
-		return arr.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
 	},
 
 	/**
