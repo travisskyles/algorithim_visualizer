@@ -20,6 +20,7 @@ export default class Visualizer extends React.Component {
 		this.algoTextStore = {
 			astar: 'A* Search',
 			dijkstras: 'Dijkstras',
+			breadthFirst: 'Breadth First',
 			btree: 'Binary Tree',
 		};
 	}

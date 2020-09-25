@@ -7,24 +7,36 @@ export default function Header(props) {
 	const dropdownSearchRef = useRef();
 	const dropdownMazeRef = useRef();
 
+	const algoTextStore = {
+		astar: 'Visualize A*!',
+		dijkstras: 'Visualize Dijkstras!',
+		breadthFirst: 'Visualize Breadth First!',
+		btree: 'Visualize Binary Tree!',
+	};
+
 	const { selectedAlgorithm } = props;
 	const goButtonText = (selectedAlgorithm) => {
-		let text;
-		switch (selectedAlgorithm) {
-			case 'astar':
-				text = 'Visualize A*!';
-				break;
-			case 'dijkstras':
-				text = 'Visualize Dijkstras!';
-				break;
-			case 'btree':
-				text = 'Visualize Binary Tree!';
-				break;
-			default:
-				text = 'Visualize!';
-				break;
+		if (algoTextStore[selectedAlgorithm]) {
+			return algoTextStore[selectedAlgorithm];
+		} else {
+			return 'Visualize!';
 		}
-		return text;
+		// let text;
+		// switch (selectedAlgorithm) {
+		// 	case 'astar':
+		// 		text = 'Visualize A*!';
+		// 		break;
+		// 	case 'dijkstras':
+		// 		text = 'Visualize Dijkstras!';
+		// 		break;
+		// 	case 'btree':
+		// 		text = 'Visualize Binary Tree!';
+		// 		break;
+		// 	default:
+		// 		text = 'Visualize!';
+		// 		break;
+		// }
+		// return text;
 	};
 
 	const handleMenuEnter = (menuButtonRef, dropDownRef) => {
@@ -153,6 +165,11 @@ export default function Header(props) {
 							value='algorithm-astar'
 							onClick={(e) => props.handleMenuClick(e)}>
 							A* Search
+						</li>
+						<li
+							value='algorithm-breadthFirst'
+							onClick={(e) => props.handleMenuClick(e)}>
+							Breadth First
 						</li>
 					</ul>
 				</div>
