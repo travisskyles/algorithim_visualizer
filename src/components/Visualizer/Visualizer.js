@@ -22,6 +22,7 @@ export default class Visualizer extends React.Component {
 			dijkstras: 'Dijkstras',
 			breadthFirst: 'Breadth First',
 			btree: 'Binary Tree',
+			depthFirst: 'Depth First',
 		};
 	}
 

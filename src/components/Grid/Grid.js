@@ -4,6 +4,7 @@ import { astar } from '../../algorithims/astar';
 import { breadthFirst } from '../../algorithims/breadthFirst';
 import { dijkstras } from '../../algorithims/dijkstras';
 import { binaryTreeMaze } from '../../algorithims/maze_gen/binaryTree';
+import { depthFirstMaze } from '../../algorithims/maze_gen/depthFirst';
 import Node from '../Node/Node';
 import './Grid.css';
 
@@ -340,6 +341,8 @@ export default class Grid extends React.Component {
 		const finishNode = grid[finishNodeRow][finishNodeColumn];
 		let visitedInOrder;
 		let shortestInOrder;
+		let path;
+		let walls;
 
 		switch (algorithmName) {
 			case 'dijkstras':
@@ -360,8 +363,16 @@ export default class Grid extends React.Component {
 			case 'btree':
 				this.clearWalls(grid);
 				const btree = new binaryTreeMaze(grid);
-				let path = btree.generate();
-				let walls = btree.getWalls(grid, path);
+				path = btree.generate();
+				walls = btree.getWalls(grid, path);
+				this.animateMaze(walls);
+				break;
+			case 'depthFirst':
+				this.clearWalls(grid);
+				const depthFirst = new depthFirstMaze(grid);
+				path = depthFirst.generate(grid[startNodeRow][startNodeColumn]);
+				walls = depthFirst.getWalls(grid, path);
+				console.log(walls);
 				this.animateMaze(walls);
 				break;
 			default:
@@ -447,7 +458,6 @@ export default class Grid extends React.Component {
 
 	createGrid() {
 		const { rows, columns } = this.state;
-		console.log(columns);
 		const grid = [];
 		for (let row = 0; row < rows; row++) {
 			const currentRow = [];

@@ -12,6 +12,7 @@ export default function Header(props) {
 		dijkstras: 'Visualize Dijkstras!',
 		breadthFirst: 'Visualize Breadth First!',
 		btree: 'Visualize Binary Tree!',
+		depthFirst: 'Visualize Depth First!',
 	};
 
 	const { selectedAlgorithm } = props;
@@ -127,11 +128,11 @@ export default function Header(props) {
 							onClick={(e) => props.handleMenuClick(e)}>
 							Binary Tree
 						</li>
-						{/* <li
-							value='algorithm-astar'
+						<li
+							value='algorithm-depthFirst'
 							onClick={(e) => props.handleMenuClick(e)}>
-							A* Search
-						</li> */}
+							Depth First
+						</li>
 					</ul>
 				</div>
 				<li
