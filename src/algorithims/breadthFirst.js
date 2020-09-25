@@ -32,6 +32,7 @@ export const breadthFirst = {
 					continue;
 				}
 				if (!unvisited.includes(neighbor)) {
+          neighbor.previousNode = current;
 					unvisited.push(neighbor);
 				}
 			}
@@ -67,5 +68,22 @@ export const breadthFirst = {
 	 */
 	_sortNodesByDistance: function (arr) {
 		return arr.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
+  },
+  
+  	/**
+	 * takes the finish node and works backwards to get a list of the nodes in the shortest path from start to finish.
+	 * @function getShortestPath
+	 * @param {node} finishNode end goal node of the search
+	 * @returns {array} array of nodes of shortest path
+	 */
+	getShortestPath: function (finishNode) {
+		let current = finishNode;
+		const result = [];
+		while (current.previousNode) {
+			result.push(current);
+			current = current.previousNode;
+		}
+		// makes sure to include starting node
+		result.push(current);
+		return result.reverse();
 	},
-};
