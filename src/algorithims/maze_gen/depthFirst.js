@@ -8,46 +8,46 @@ depthFirstMaze.prototype.generate = function (startNode) {
 
 	const newGrid = [...this.grid];
 	// set starting node and add to stack
+	// const start = { node: startNode };
 	const stack = [];
 	const path = [];
-	let TESTIDX = 0;
-	// let current = newGrid[0][0];
-	stack.push({ node: startNode });
-	// console.log(path);
-	// while stack is not empty
+
+	stack.push(startNode);
+	path.push(startNode);
+
 	while (!!stack.length) {
-		// while (TESTIDX < 10) {
-		// 	TESTIDX++;
 		const viableNeighbors = [];
 		// pop top of stack and mark as traveled
-		console.log('stack', stack);
 		let current = stack.pop();
-		if (current.dir) {
-			const previous = _getPrevious(current, newGrid);
-			path.push(previous);
-		}
 		path.push(current.node);
-		console.log('current', current);
 
-		// console.log('stack', stack);
-		// console.log('current', current);
-		// get all unvisited neighbors each direction
+		// get all neighbors 2 spaces away each direction
 		let neighbors = _getNeighbors(current, newGrid);
+		// if no neighbors continue
 		if (!neighbors.length) {
 			continue;
 		}
-		// console.log('neighbors', neighbors);
+		// loop through neighbors and check if they are undefined or already visited
+		// push all others into viable
 		for (let neighbor of neighbors) {
-			if (!neighbor || path.includes(neighbor.node)) {
+			if (!neighbor || path.includes(neighbor)) {
 				continue;
 			} else {
 				viableNeighbors.push(neighbor);
 			}
 		}
-		// console.log('Viable', viableNeighbors);
+
 		if (!viableNeighbors.length) {
 			continue;
 		} else {
+			// loop through viable and get the node between it and current
+			// push both viable and previous into visited
+			for (let i = 0; i < viableNeighbors.length; i++) {
+				const previous = _getPrevious(current, viableNeighbors[i], newGrid);
+				path.push(previous);
+				path.push(viableNeighbors[i]);
+			}
+			// randomly pick push the viable into the stack
 			let tracker = viableNeighbors.length;
 			const usedInts = [];
 			while (tracker > 0) {
@@ -60,63 +60,10 @@ depthFirstMaze.prototype.generate = function (startNode) {
 					tracker--;
 				}
 			}
-			// for (let i = 0; i < viableNeighbors.length; i++) {
-			// 	// console.log('usedInts', usedInts);
-
-			// 	let randInt = Math.floor(
-			// 		Math.random() * Math.floor(viableNeighbors.length)
-			// 	);
-			// 	if (!usedInts.includes(randInt)) {
-
-			// 		usedInts.push(randInt);
-			// 		stack.push(viableNeighbors[randInt]);
-			// 	}
-			// }
 		}
-
-		// 	const newNeighbor = _getNeighborNext(neighbor, newGrid);
-
-		// 	// check if neighbor.next is visited
-		// 	// if yes, ignore
-		// 	if (!neighbor.next || path.includes(newNeighbor.next)) {
-		// 		continue;
-		// 	}
-		// 	// if no push newNeighbor.node into path
-		// 	else {
-		// 		if (!path.includes(newNeighbor.node)) {
-		// 			path.push(newNeighbor.node);
-		// 		}
-		// 		console.log('path', path);
-		// 		// console.log('newNeighborVia', newNeighbor);
-
-		// 		viableNeighbors.push(newNeighbor.next);
-		// 	}
-		// 	// and push neighbor.next into viableneighbors
-		// }
-		// removed undefined
-		// viableNeighbors.filter((el) => (el ? true : false));
-		// check if vianeighbors is not empty
-		// if yes, continue
-		// if no, randomly add them to stack
-		// if (!viableNeighbors.length) {
-		// 	continue;
-		// } else {
-		// 	const usedInts = [];
-		// 	for (let i = 0; i < viableNeighbors.length; i++) {
-		// 		// console.log('usedInts', usedInts);
-
-		// 		let randInt = Math.floor(
-		// 			Math.random() * Math.floor(viableNeighbors.length)
-		// 		);
-		// 		if (!usedInts.includes(randInt)) {
-		// 			usedInts.push(randInt);
-		// 			stack.push(viableNeighbors[randInt]);
-		// 		}
-		// 	}
 	}
-	console.log('Path', path);
 
-	return path;
+	return [...new Set(path)];
 };
 
 depthFirstMaze.prototype.getWalls = function (grid, pathArray) {
@@ -125,80 +72,31 @@ depthFirstMaze.prototype.getWalls = function (grid, pathArray) {
 	return wallsArray;
 };
 
-const _getPrevious = function (node, grid) {
-	let previous;
-	switch (node.dir) {
-		case 'north':
-			// console.log(node);
-			previous = grid[node.node.row + 1][node.node.column];
-			break;
-		case 'south':
-			// console.log(node);
-			previous = grid[node.node.row - 1][node.node.column];
-			break;
-		case 'west':
-			// console.log(node);
-			previous = grid[node.node.row][node.node.column + 1];
-			break;
-		case 'east':
-			// console.log(node);
-			previous = grid[node.node.row][node.node.column - 1];
-			break;
-		default:
-			break;
+const _getPrevious = function (current, neighbor, grid) {
+	if (!current || !neighbor || !grid) return console.error('Missing Args');
+	let middleNode;
+	if (current.row < neighbor.row && current.column === neighbor.column) {
+		middleNode = grid[current.row + 1][current.column];
+	} else if (current.row > neighbor.row && current.column === neighbor.column) {
+		middleNode = grid[current.row - 1][current.column];
+	} else if (current.row === neighbor.row && current.column < neighbor.column) {
+		middleNode = grid[current.row][current.column + 1];
+	} else if (current.row === neighbor.row && current.column > neighbor.column) {
+		middleNode = grid[current.row][current.column - 1];
 	}
-	return previous;
+
+	return middleNode;
 };
 // get neighbors 2 out
 const _getNeighbors = function (node, grid) {
 	if (!node || !grid) return console.error('Missing Args');
 	const neighbors = [];
-	const { column, row } = node.node;
+	const { column, row } = node;
 
-	if (row > 1) neighbors.push({ dir: 'north', node: grid[row - 2][column] });
-	if (row < grid.length - 2)
-		neighbors.push({ dir: 'south', node: grid[row + 2][column] });
-	if (column > 1) neighbors.push({ dir: 'west', node: grid[row][column - 2] });
-	if (column < grid[0].length - 2)
-		neighbors.push({ dir: 'east', node: grid[row][column + 2] });
+	if (row > 1) neighbors.push(grid[row - 2][column]);
+	if (row < grid.length - 2) neighbors.push(grid[row + 2][column]);
+	if (column > 1) neighbors.push(grid[row][column - 2]);
+	if (column < grid[0].length - 2) neighbors.push(grid[row][column + 2]);
 
 	return neighbors;
-};
-
-const _getNeighborNext = function (node, grid) {
-	const newNode = node;
-	// console.log('_getNeighborNext', newNode, grid);
-	switch (newNode.dir) {
-		case 'north':
-			if (grid[newNode.node.row - 1][newNode.node.column]) {
-				newNode.next = grid[newNode.node.row - 1][newNode.node.column];
-			} else {
-				newNode.next = null;
-			}
-			break;
-		case 'south':
-			if (grid[newNode.node.row + 1][newNode.node.column]) {
-				newNode.next = grid[newNode.node.row + 1][newNode.node.column];
-			} else {
-				newNode.next = null;
-			}
-			break;
-		case 'west':
-			if (grid[newNode.node.row][newNode.node.column - 1]) {
-				newNode.next = grid[newNode.node.row][newNode.node.column - 1];
-			} else {
-				newNode.next = null;
-			}
-			break;
-		case 'east':
-			if (grid[newNode.node.row][newNode.node.column + 1]) {
-				newNode.next = grid[newNode.node.row][newNode.node.column + 1];
-			} else {
-				newNode.next = null;
-			}
-			break;
-		default:
-			break;
-	}
-	return newNode;
 };
