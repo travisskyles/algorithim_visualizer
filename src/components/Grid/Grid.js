@@ -391,6 +391,9 @@ export default class Grid extends React.Component {
 	animateMaze(pathArray) {
 		const idArr = [];
 		for (let i = 0; i < pathArray.length; i++) {
+			if (i === pathArray.length - 1) {
+				this.setState({ animationTimers: idArr });
+			}
 			let id = setTimeout(() => {
 				const node = pathArray[i];
 				const newGrid = this.updateNode(
@@ -404,7 +407,6 @@ export default class Grid extends React.Component {
 				this.setState({ grid: newGrid });
 			}, 10 * i);
 			idArr.push(id);
-			this.setState({ animationTimers: idArr });
 		}
 	}
 
@@ -419,6 +421,7 @@ export default class Grid extends React.Component {
 					this.animateShortestPath(nodesInShortestOrder);
 				}, 10 * i);
 				idArr.push(id);
+				this.setState({ animationTimers: idArr });
 				return;
 			}
 			id = setTimeout(() => {
@@ -434,19 +437,23 @@ export default class Grid extends React.Component {
 				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
 			}, 10 * i + 10);
 			idArr.push(id);
-			this.setState({ animationTimers: idArr });
 		}
 	}
 
 	animateShortestPath(nodesInShortestOrder) {
+		let idArr = [];
 		for (let i = 0; i < nodesInShortestOrder.length; i++) {
-			setTimeout(() => {
+			if (i === nodesInShortestOrder.length - 1) {
+				this.setState({ animationTimers: idArr });
+			}
+			let id = setTimeout(() => {
 				const node = nodesInShortestOrder[i];
 				// let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: false, isShortest: true });
 				// this.setState({ grid: newGrid });
 				this[`node-${node.row}-${node.column}`].className =
 					'node node_shortestPath';
 			}, 50 * i);
+			idArr.push(id);
 		}
 	}
 
