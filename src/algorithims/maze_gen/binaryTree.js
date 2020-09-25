@@ -1,14 +1,15 @@
-export function binaryTreeMaze(options) {
+export function binaryTreeMaze(grid, options) {
+	this.grid = grid || [];
 	this.options = options || {};
 }
 
-binaryTreeMaze.prototype.generate = function (grid) {
+binaryTreeMaze.prototype.generate = function () {
 	// ensure all parameter exist and start and finish are not the same
-	if (!grid) {
+	if (!this.grid) {
 		return false;
 	}
 
-	const newGrid = [...grid];
+	const newGrid = [...this.grid];
 	const path = [];
 
 	let neighborH;

@@ -359,8 +359,8 @@ export default class Grid extends React.Component {
 				break;
 			case 'btree':
 				this.clearWalls(grid);
-				const btree = new binaryTreeMaze();
-				let path = btree.generate(grid);
+				const btree = new binaryTreeMaze(grid);
+				let path = btree.generate();
 				let walls = btree.getWalls(grid, path);
 				this.animateMaze(walls);
 				break;
