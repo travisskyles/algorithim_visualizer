@@ -1,6 +1,7 @@
 import React from 'react';
 import { IconContext } from 'react-icons';
 import { astar } from '../../algorithims/astar';
+import { breadthFirst } from '../../algorithims/breadthFirst';
 import { dijkstras } from '../../algorithims/dijkstras';
 import { binaryTreeMaze } from '../../algorithims/maze_gen/binaryTree';
 import Node from '../Node/Node';
@@ -349,6 +350,11 @@ export default class Grid extends React.Component {
 			case 'astar':
 				visitedInOrder = astar.run(grid, startNode, finishNode);
 				shortestInOrder = astar.getShortestPath(finishNode);
+				this.animate(visitedInOrder, shortestInOrder);
+				break;
+			case 'breadthFirst':
+				visitedInOrder = breadthFirst.run(grid, startNode, finishNode);
+				shortestInOrder = breadthFirst.getShortestPath(finishNode);
 				this.animate(visitedInOrder, shortestInOrder);
 				break;
 			case 'btree':
