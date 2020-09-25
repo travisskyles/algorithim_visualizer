@@ -48,7 +48,10 @@ export const astar = {
 			// take the lowest value and set to current
 			this._sortNodesByDistance(open);
 			let current = open.shift();
-			if (current === finishNode) return closed;
+			if (current === finishNode) {
+				closed.push(current);
+				return closed;
+			}
 			if (current.isWall) continue;
 
 			// set current as visited

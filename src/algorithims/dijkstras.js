@@ -28,7 +28,10 @@ export const dijkstras = {
 			// set the current node as the first from the array
 			this._sortNodesByDistance(unvisited);
 			let current = unvisited.shift();
-			if (current === finishNode) return visited;
+			if (current === finishNode) {
+				visited.push(current);
+				return visited;
+			}
 			if (current.isWall) continue;
 
 			// set current as visited
