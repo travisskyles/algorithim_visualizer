@@ -29,6 +29,7 @@ export default class Grid extends React.Component {
 			startSelected: false,
 			finishSelected: false,
 			hasRun: false,
+			animationTimers: [],
 		};
 	}
 
@@ -94,8 +95,12 @@ export default class Grid extends React.Component {
 	}
 
 	resetBoard() {
-		const { rows, columns } = this.state;
+		const { rows, columns, animationTimers } = this.state;
 		const grid = [];
+		if (animationTimers.length) {
+			console.log(animationTimers);
+			this.cancelAnimation(animationTimers);
+		}
 		for (let row = 0; row < rows; row++) {
 			const currentRow = [];
 			for (let column = 0; column < columns; column++) {
@@ -384,8 +389,9 @@ export default class Grid extends React.Component {
 	}
 
 	animateMaze(pathArray) {
+		const idArr = [];
 		for (let i = 0; i < pathArray.length; i++) {
-			setTimeout(() => {
+			let id = setTimeout(() => {
 				const node = pathArray[i];
 				const newGrid = this.updateNode(
 					this.state.grid,
@@ -397,30 +403,38 @@ export default class Grid extends React.Component {
 				);
 				this.setState({ grid: newGrid });
 			}, 10 * i);
+			idArr.push(id);
+			this.setState({ animationTimers: idArr });
 		}
 	}
 
 	animate(visitedNodesInOrder, nodesInShortestOrder) {
+		let idArr = [];
+
 		for (let i = 0; i <= visitedNodesInOrder.length; i++) {
 			const node = visitedNodesInOrder[i];
+			let id;
 			if (i === visitedNodesInOrder.length) {
-				setTimeout(() => {
+				id = setTimeout(() => {
 					this.animateShortestPath(nodesInShortestOrder);
 				}, 10 * i);
+				idArr.push(id);
 				return;
 			}
-			setTimeout(() => {
+			id = setTimeout(() => {
 				// let newGrid = this.updateNode(this.state.grid, node.row, node.column, {isCurrent: true});
 				// this.setState({grid: newGrid});
 				// console.log([`node-${node.row}-${node.column}`].className)
 				this[`node-${node.row}-${node.column}`].className = 'node node_current';
 			}, 10 * i);
-
-			setTimeout(() => {
+			idArr.push(id);
+			id = setTimeout(() => {
 				// let newGrid = this.updateNode(this.state.grid, node.row, node.column, { isCurrent: false, isVisited: true });
 				// this.setState({ grid: newGrid });
 				this[`node-${node.row}-${node.column}`].className = 'node node_visited';
 			}, 10 * i + 10);
+			idArr.push(id);
+			this.setState({ animationTimers: idArr });
 		}
 	}
 
@@ -433,6 +447,12 @@ export default class Grid extends React.Component {
 				this[`node-${node.row}-${node.column}`].className =
 					'node node_shortestPath';
 			}, 50 * i);
+		}
+	}
+
+	cancelAnimation(idArray) {
+		for (let id of idArray) {
+			clearTimeout(id);
 		}
 	}
 
